@@ -4,9 +4,11 @@ var imgElem = document.querySelector(".images");
 var fileElem = document.createElement('input');
 fileElem.type = 'file';
 
+
 imgElem.addEventListener('click', function() {
     fileElem.click();
 });
+
 
 fileElem.addEventListener('change', function() {
     startProgress();
