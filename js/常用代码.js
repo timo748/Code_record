@@ -1,0 +1,569 @@
+/***********************************封装localStorage读取对象内容***********************************/
+let rkey = /^[0-9A-Za-z_@-]*s/;
+let store;
+
+//转换对象
+function init() {
+    if (typeof store === 'underfind') {
+        store = window["localStorage"];
+    }
+    return true;
+};
+
+//判断locaStorage的key是否合法
+function isvaalidStorage(key) {
+    if (typeof key !== 'string') {
+        return false;
+    }
+    return rkey.test(key);
+};
+
+exports = {
+    //设置locaStorage单条记录
+    set(key, value) {
+        let success = false;
+        if (isValidKey(key) && init()) {
+            try {
+                value += "";
+                store.setItem(key, value);
+                success = true;
+            } catch (e) {}
+        }
+        return success;
+    },
+    //读取locaStorage单条记录
+    get(key) {
+        if (isValidKey(key) && init()) {
+            try {
+                return store.getItem(key);
+            } catch (e) {}
+        }
+        return null;
+    },
+    //移除loacStorace
+    remove(key) {
+        if (isValidKey(key) && init()) {
+            try {
+                store.removeItem(key);
+                return true;
+            } catch (e) {}
+        }
+        return false;
+    },
+
+    //清除loaclStorage所有记录
+    clear() {
+        if (init()) {
+            try {
+                for (let key in store) {
+                    store.removeItem(key);
+                }
+                return true;
+            } catch (e) {}
+        }
+    }
+}
+
+module.exports = exports;
+
+
+
+/********************************loaclStorage缓存常用文件*****************************************/
+//<div id="versionStore" data-version="1.4"></div>
+let scriptpath = "server/path/",
+    script = document.createElement('script'),
+    newVersion = document.getElementById("versionStore").getAttribute("data-version"),
+    oldVersion = localStorage.getItem('version')
+
+// 如果有版本更新或本地没有缓存，则请求新的js内容插入到页面执行，同时保存到本地locaStorage
+
+if (newVersion > (oldVersion || 0)) {
+    $.ajax({
+        url: `${scriptPath}main${newVersion}.js`,
+        type: 'get',
+        dataType: 'css',
+        success: function(content) {
+            script.innerHTML = content;
+            document.appendChild(script);
+            //更新localStorage静态资源
+            _updataLocaStorage(scriptPath, content);
+        }
+    });
+} else {
+    script.innerHTML = localStorage.getItem(scriptPath);
+    document.appendChild(script);
+}
+
+
+/********************************随机排序数组**************************************/
+function getRoundItem(max, min) {
+    return Math.floor(Math.random() * (max - min) + 1 + min)
+}
+
+function shuffle(arr) {
+    for (var i = 0; i < arr.length; i++) {
+        var j = getRoundItem(0, i)
+        var t = arr[i]
+        arr[i] = arr[j]
+        arr[j] = t
+    }
+    return arr;
+}
+
+
+/********************************根据url获取参数**************************************/
+/**
+ * 获取 QueryString
+ * @param  {string} [name] 参数名，可空
+ * @param  {string} [search] search部分值，可空
+ * @return {string|object} 值或整个对象
+ */
+function getQueryString(name, search) {
+    var url = search || location.search;
+    var params = {};
+    if (url.indexOf('?') != -1) {
+        var arr = url.substring(1).split('&'); // 分割参数
+        for (var i = 0, l = arr.length; i < l; i++) { // 遍历参数
+            var kv = arr[i].split('='); // 分隔键值对
+            params[kv.shift()] = kv.length ? decodeURIComponent(kv.join('=')) : undefined; // 如果有值就解码存储
+        }
+    }
+    return name ? params[name] : params; // 输出 name 的值或整个参数对象
+}
+
+// 假设 search 值为 ?uid=KB1R+qyhl24II350DQ=&name=abc&DEBUG
+console.log(getQueryString()); // => {uid: "KB1R+qyhl24II350DQ=", name: "abc", DEBUG: undefined}
+console.log(getQueryString('abc')); // => KB1R+qyhl24II350DQ=
+// 或
+console.log(getQueryString('uid', '?uid=KB1R+qyhl24II350DQ=&name=abc&DEBUG')); // => abc
+
+
+
+/******************************** 验证码随机产生**************************************/
+
+function getCode() {
+    var strCode = ""
+    for (var i = 0; i < 4; i++) {
+        var n = Math.round(math.roundom() * (61 - 0) + 0);
+        strCode += str[n];
+    }
+    oDiv.innerHTML = strCode;
+}
+getCode()
+oDiv.onclick = getCode;
+
+
+/******************************** 获取时间前面清零**************************************/
+function addZero(n) {
+    n < 10 ? n = "0" + n : null;
+    return n;
+}
+
+//将后台时间转化为具体时间：
+var createTimeObj = new Date();
+createTimeObj.setTime(createTime);
+var createTimeStr = createTimeObj.format("yyyy-MM-dd hh:mm:ss");
+
+// 倒计时：
+window.onload = function() {
+    var demo = document.getElementById("demo");
+    var endTime = new Date("2015/12/12 17:30:00"); // 最终时间
+    setInterval(clock, 1000); // 开启定时器
+    function clock() {
+        var nowTime = new Date(); // 一定是要获取最新的时间
+        //  console.log(nowTime.getTime());  获得自己的毫秒
+        var second = parseInt((endTime.getTime() - nowTime.getTime()) / 1000);
+        // 用将来的时间毫秒 -  现在的毫秒  / 1000 得到的 还剩下的秒  可能处不断 取整
+        // console.log(second);
+        // 一小时 3600 秒
+        // second / 3600  一共的小时数  /24   天数
+        var d = parseInt(second / 3600 / 24); //天数
+        //console.log(d);
+        var h = parseInt(second / 3600 % 24) // 小时
+            // console.log(h);
+        var m = parseInt(second / 60 % 60);
+        //console.log(m);
+        var s = parseInt(second % 60); // 当前的秒
+        console.log(s);
+        /* if(d<10)
+         {
+             d = "0" + d;
+         }*/
+        d < 10 ? d = "0" + d : d;
+        h < 10 ? h = "0" + h : h;
+        m < 10 ? m = "0" + m : m;
+        s < 10 ? s = "0" + s : s;
+        demo.innerHTML = "距离抢购时间还剩: " + d + "天 " + h + "小时 " + m + "分钟 " + s + "秒";
+    }
+}
+
+
+/********************************根据name获取cookie**************************************/
+function getCookie(name) {
+    var arr = document.cookie.replace(/\s/g, "").split(';');
+    for (var i = 0; i < arr.length; i++) {
+        var tempArr = arr[i].split('=');
+        if (tempArr[0] == name) {
+            return decodeURIComponent(tempArr[1]);
+        }
+    }
+    return '';
+}
+
+//根据name删除cookie
+function removeCookie(name) {
+    // 设置已过期，系统会立刻删除cookie
+    setCookie(name, '1', -1);
+}
+
+//设置cookie
+function setCookie(name, value, days) {
+    var date = new Date();
+    date.setDate(date.getDate() + days);
+    document.cookie = name + '=' + value + ';expires=' + date;
+}
+
+
+
+/********************************获取浏览器类型版本**************************************/
+function getExplore() {
+    var sys = {},
+        ua = navigator.userAgent.toLowerCase(),
+        s;
+    (s = ua.match(/rv:([\d.]+)\) like gecko/)) ? sys.ie = s[1]:
+        (s = ua.match(/msie ([\d\.]+)/)) ? sys.ie = s[1] :
+        (s = ua.match(/edge\/([\d\.]+)/)) ? sys.edge = s[1] :
+        (s = ua.match(/firefox\/([\d\.]+)/)) ? sys.firefox = s[1] :
+        (s = ua.match(/(?:opera|opr).([\d\.]+)/)) ? sys.opera = s[1] :
+        (s = ua.match(/chrome\/([\d\.]+)/)) ? sys.chrome = s[1] :
+        (s = ua.match(/version\/([\d\.]+).*safari/)) ? sys.safari = s[1] : 0;
+    // 根据关系进行判断
+    if (sys.ie) return ('IE: ' + sys.ie)
+    if (sys.edge) return ('EDGE: ' + sys.edge)
+    if (sys.firefox) return ('Firefox: ' + sys.firefox)
+    if (sys.chrome) return ('Chrome: ' + sys.chrome)
+    if (sys.opera) return ('Opera: ' + sys.opera)
+    if (sys.safari) return ('Safari: ' + sys.safari)
+    return 'Unkonwn'
+}
+
+
+/********************************获取滚动条距顶部的距离**************************************/
+function getScrollTop() {
+    return (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+}
+
+
+
+/******************** 获取一个元素的距离文档(document)的位置，类似jQ中的offset()*********************/
+function offset(ele) {
+    var pos = {
+        left: 0,
+        top: 0
+    };
+    while (ele) {
+        pos.left += ele.offsetLeft;
+        pos.top += ele.offsetTop;
+        ele = ele.offsetParent;
+    };
+    return pos;
+}
+
+
+
+/********************************设置滚动条距顶部的距离**************************************/
+function setScrollTop(value) {
+    window.scrollTo(0, value);
+    return value;
+}
+
+
+
+/*******************在${duration}时间内，滚动条平滑滚动到${to}指定位置***************************/
+var requestAnimFrame = (function() {
+    return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        function(callback) {
+            window.setTimeout(callback, 1000 / 60);
+        };
+})();
+
+function scrollTo(to, duration) {
+    if (duration < 0) {
+        setScrollTop(to);
+        return
+    }
+    var diff = to - getScrollTop();
+    if (diff === 0) return
+    var step = diff / duration * 10;
+    requestAnimationFrame(
+        function() {
+            if (Math.abs(step) > Math.abs(diff)) {
+                setScrollTop(getScrollTop() + diff);
+                return;
+            }
+            setScrollTop(getScrollTop() + step);
+            if (diff > 0 && getScrollTop() >= to || diff < 0 && getScrollTop() <= to) {
+                return;
+            }
+            scrollTo(to, duration - 16);
+        });
+}
+
+
+
+/**************************************深拷贝************************************************/
+// 一
+function deepClone(values) {
+    var copy;
+    // Handle the 3 simple types, and null or undefined
+    if (null == values || "object" != typeof values) return values;
+
+    // Handle Date
+    if (values instanceof Date) {
+        copy = new Date();
+        copy.setTime(values.getTime());
+        return copy;
+    }
+    // Handle Array
+    if (values instanceof Array) {
+        copy = [];
+        for (var i = 0, len = values.length; i < len; i++) {
+            copy[i] = deepClone(values[i]);
+        }
+        return copy;
+    }
+    // Handle Object
+    if (values instanceof Object) {
+        copy = {};
+        for (var attr in values) {
+            if (values.hasOwnProperty(attr)) copy[attr] = deepClone(values[attr]);
+        }
+        return copy;
+    }
+    throw new Error("Unable to copy values! Its type isn't supported.");
+}
+
+// 二
+//利用递归来实现深拷贝，如果对象属性的值是引用类型（Array,Object），那么对该属性进行深拷贝，直到遍历到属性的值是基本类型为止。  
+function deepClone(obj) {
+    if (!obj && typeof obj !== 'object') {
+        return;
+    }
+    var newObj = obj.constructor === Array ? [] : {};
+    for (var key in obj) {
+        if (obj[key]) {
+            if (obj[key] && typeof obj[key] === 'object') {
+                newObj[key] = obj[key].constructor === Array ? [] : {};
+                //递归
+                newObj[key] = deepClone(obj[key]);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    return newObj;
+}
+var arr = [{ a: 1, b: 2 }, { a: 3, b: 4 }]
+var newArr = deepClone(arr)
+console.log(arr[0]) //{a:1,b:2}
+newArr[0].a = 123
+console.log(arr[0]) //{a:1,b:2}
+
+
+// 三
+function deepCopy(oldObj, newObj) {
+    for (let key in oldObj) {
+        if (typeof oldObj[key] != 'object') {
+            // 是基本类型直接复制
+            newObj[key] = oldObj[key];
+        } else {
+            newObj[key] = oldObj[key].constructor == '[Function: Array]'？ []: {};
+            deepCopy(oldObj[key], newObj[key])
+        }
+    }
+}
+
+
+
+
+
+/**************************************判断obj是否为空*****************************************/
+function isEmptyObject(obj) {
+    if (!obj || typeof obj !== 'object' || Array.isArray(obj))
+        return false
+    return !Object.keys(obj).length
+}
+
+
+
+/**************************************随机生成颜色*****************************************/
+function randomColor() {
+    return '#' + ('00000' + (Math.random() * 0x1000000 << 0).toString(16)).slice(-6);
+}
+
+/**************************************生成指定范围随机数*****************************************/
+function randomNum(min, max) {
+    return Math.floor(min + Math.random() * (max - min));
+}
+
+
+/**************************************判断浏览器是否支持webP格式图片*****************************************/
+function isSupportWebP() {
+    return !![].map && document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') == 0;
+}
+
+
+/*******************************格式化${startTime}距现在的已过时间*******************************/
+function formatPassTime(startTime) {
+    var currentTime = Date.parse(new Date()),
+        time = currentTime - startTime,
+        day = parseInt(time / (1000 * 60 * 60 * 24)),
+        hour = parseInt(time / (1000 * 60 * 60)),
+        min = parseInt(time / (1000 * 60)),
+        month = parseInt(day / 30),
+        year = parseInt(month / 12);
+    if (year) return year + "年前"
+    if (month) return month + "个月前"
+    if (day) return day + "天前"
+    if (hour) return hour + "小时前"
+    if (min) return min + "分钟前"
+    else return '刚刚'
+}
+
+
+
+/*******************************格式化现在距${endTime}的剩余时间*******************************/
+function formatRemainTime(endTime) {
+    var startDate = new Date(); //开始时间
+    var endDate = new Date(endTime); //结束时间
+    var t = endDate.getTime() - startDate.getTime(); //时间差
+    var d = 0,
+        h = 0,
+        m = 0,
+        s = 0;
+    if (t >= 0) {
+        d = Math.floor(t / 1000 / 3600 / 24);
+        h = Math.floor(t / 1000 / 60 / 60 % 24);
+        m = Math.floor(t / 1000 / 60 % 60);
+        s = Math.floor(t / 1000 % 60);
+    }
+    return d + "天 " + h + "小时 " + m + "分钟 " + s + "秒";
+}
+
+
+
+/************************************************节流函数*********************************************/
+/**
+ * @desc   函数节流。
+ * 适用于限制`resize`和`scroll`等函数的调用频率
+ *
+ * @param  {Number}    delay          0 或者更大的毫秒数。 对于事件回调，大约100或250毫秒（或更高）的延迟是最有用的。
+ * @param  {Boolean}   noTrailing     可选，默认为false。
+ *                                    如果noTrailing为true，当节流函数被调用，每过`delay`毫秒`callback`也将执行一次。
+ *                                    如果noTrailing为false或者未传入，`callback`将在最后一次调用节流函数后再执行一次.
+ *                                    （延迟`delay`毫秒之后，节流函数没有被调用,内部计数器会复位）
+ * @param  {Function}  callback       延迟毫秒后执行的函数。`this`上下文和所有参数都是按原样传递的，
+ *                                    执行去节流功能时，调用`callback`。
+ * @param  {Boolean}   debounceMode   如果`debounceMode`为true，`clear`在`delay`ms后执行。
+ *                                    如果debounceMode是false，`callback`在`delay` ms之后执行。
+ *
+ * @return {Function}  新的节流函数
+ */
+function throttle(delay, noTrailing, callback, debounceMode) {
+
+    // After wrapper has stopped being called, this timeout ensures that
+    // `callback` is executed at the proper times in `throttle` and `end`
+    // debounce modes.
+    var timeoutID;
+
+    // Keep track of the last time `callback` was executed.
+    var lastExec = 0;
+
+    // `noTrailing` defaults to falsy.
+    if (typeof noTrailing !== 'boolean') {
+        debounceMode = callback;
+        callback = noTrailing;
+        noTrailing = undefined;
+    }
+
+    // The `wrapper` function encapsulates all of the throttling / debouncing
+    // functionality and when executed will limit the rate at which `callback`
+    // is executed.
+    function wrapper() {
+
+        var self = this;
+        var elapsed = Number(new Date()) - lastExec;
+        var args = arguments;
+
+        // Execute `callback` and update the `lastExec` timestamp.
+        function exec() {
+            lastExec = Number(new Date());
+            callback.apply(self, args);
+        }
+
+        // If `debounceMode` is true (at begin) this is used to clear the flag
+        // to allow future `callback` executions.
+        function clear() {
+            timeoutID = undefined;
+        }
+
+        if (debounceMode && !timeoutID) {
+            // Since `wrapper` is being called for the first time and
+            // `debounceMode` is true (at begin), execute `callback`.
+            exec();
+        }
+
+        // Clear any existing timeout.
+        if (timeoutID) {
+            clearTimeout(timeoutID);
+        }
+
+        if (debounceMode === undefined && elapsed > delay) {
+            // In throttle mode, if `delay` time has been exceeded, execute
+            // `callback`.
+            exec();
+
+        } else if (noTrailing !== true) {
+            // In trailing throttle mode, since `delay` time has not been
+            // exceeded, schedule `callback` to execute `delay` ms after most
+            // recent execution.
+            //
+            // If `debounceMode` is true (at begin), schedule `clear` to execute
+            // after `delay` ms.
+            //
+            // If `debounceMode` is false (at end), schedule `callback` to
+            // execute after `delay` ms.
+            timeoutID = setTimeout(debounceMode ? clear : exec, debounceMode === undefined ? delay - elapsed : delay);
+        }
+
+    }
+
+    // Return the wrapper function.
+    return wrapper;
+
+};
+
+
+
+/************************************************函数防抖*********************************************/
+/**
+ * @desc 函数防抖 
+ * 与throttle不同的是，debounce保证一个函数在多少毫秒内不再被触发，只会执行一次，
+ * 要么在第一次调用return的防抖函数时执行，要么在延迟指定毫秒后调用。
+ * @example 适用场景：如在线编辑的自动存储防抖。
+ * @param  {Number}   delay         0或者更大的毫秒数。 对于事件回调，大约100或250毫秒（或更高）的延迟是最有用的。
+ * @param  {Boolean}  atBegin       可选，默认为false。
+ *                                  如果`atBegin`为false或未传入，回调函数则在第一次调用return的防抖函数后延迟指定毫秒调用。
+                                    如果`atBegin`为true，回调函数则在第一次调用return的防抖函数时直接执行
+ * @param  {Function} callback      延迟毫秒后执行的函数。`this`上下文和所有参数都是按原样传递的，
+ *                                  执行去抖动功能时，，调用`callback`。
+ *
+ * @return {Function} 新的防抖函数。
+ */
+var throttle = require('./throttle');
+
+function debounce(delay, atBegin, callback) {
+    return callback === undefined ? throttle(delay, atBegin, false) : throttle(delay, callback, atBegin !== false);
+};

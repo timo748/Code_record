@@ -1,0 +1,84 @@
+/***************************图片按需加载***************************/
+window.onload = window.onscroll = function() {
+    var aIma = document.getElementByTarName("img");
+    var clientH = docuemnt.getElement.clientHeight;
+    var scrollT = document.getElement.scrollTop || document.body.scrollTop;
+    for (var i = 0; i < aImg.length; i++) {
+        var oImgt = aImg[i].offsetTop;
+        if (scrollT + clientH >= oTmgt - 20) {
+            aImg[i].src = aImg[i].getAttribute("_src");
+        }
+    }
+};
+
+//<div><img src = ""_src = "img.a.png"alt = ""> </div>
+
+
+/***********************************滚动按需加载代码********************/
+var ct_id = 1; //初始化数据
+ajaxfollowList(); //去后台查询相关数据
+//滚动加载事件
+$(window).scroll(function() {　　
+    var scrollTop = $(this).scrollTop();　　
+    var scrollHeight = $(document).height();　　
+    var windowHeight = $(this).height();
+
+    if (scrollTop + windowHeight >= scrollHeight) {
+        ajaxfollowList(); //后台查询数据
+    }
+
+});
+// 后台接口加载数据函数
+function ajaxfollowList() {
+    var url = '/index.php/WxSys/StaffUser/ajax_order/ct_id/' + ct_id; //后台接口
+    $.ajax({
+        type: "get",
+        url: url, //接口
+        success: function(data) {
+
+            var html = '';
+
+            if (data.task.length > 0) {
+                //获取所见页面的最后一条数据的id
+                var length = data.task.length - 1;
+                ct_id = data.task[length].ct_id;
+
+
+                for (var i = 0; i < data.task.length; i++) {
+
+                    html += "<div class='content_contain' task-id='" + data.task[i].ct_id + "'>";
+                    html += "<div class='content_line'>";
+                    html += "<span>" + data.task[i].ctt_type_name + "</span>";
+                    html += "<span style='text-align:center;'>" + data.task[i].ct_dispatch_date + "</span>";
+                    html += "<span style='text-align:center;color:#fff;background-image:url({$Think.const.WECHAT_URL}css/images/waitingProcess.png);background-size:70% 100%;background-repeat:no-repeat;background-position:center;padding-left:0.3rem;padding-right:0.3rem;'>" + data.task[i].status + "</span>";
+                    html += "</div>";
+                    html += "<h3 style='font-size:0.3rem;margin-top:0.1rem;'>谢伟强<span style='font-size:0.26rem;'>（13602780741）</span></h3>"
+                    html += "<h3 style='font-size:0.3rem;color:#151515;margin-top:0.1rem;'>" + data.task[i].un_bldg_name + "栋" + data.task[i].un_fl_name + "楼" + data.task[i].un_name + "单元</h3>";
+                    html += "<h6 style='font-size:0.26rem;'>" + data.task[i].ct_task_content + "</h6>";
+
+
+                    if (data.task[i].images) {
+                        for (var j = 0; j < data.task[i].images.length; j++) {
+                            html += "<ul class='content_line_img'>";
+                            html += "<li><img src='/Uploads/" + data.task[i].images[j] + "'></li>";
+                            html += "</ul>";
+                        }
+                    }
+
+                    html += "</div>";
+                    html += "<div class='interval'></div>";
+
+                }
+                $(".tab_a").append(html); //查询到的数据进行页面上的布置
+
+            } else {
+                html += "<div class='empty'>";
+                html += "<img src='/Public/weChat/css/images/empty/no_repaired.png'>";
+                html += "<p>暂无工单任务</p>";
+                html += "</div>";
+
+                $(".tab_a").append(html);
+            }
+        }
+    });
+}
