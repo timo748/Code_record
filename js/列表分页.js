@@ -50,6 +50,8 @@ function getData(page) {
     });
 }
 
+
+
 getData(1);
 /**
  * 上一页点击事件
