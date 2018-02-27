@@ -1,9 +1,8 @@
-//ajax模块
-    ;
-    
-    !(function(window) {
-    
+### ajax模块
+
+
     //封装ajax，参数为一个对象
+    !(function(window) {
     var ajax = function(opt) {
             var xhr = new XMLHttpRequest(); //创建XHR对象
             //通过使用JS随机字符串解决IE浏览器第二次默认获取缓存的问题
@@ -63,8 +62,11 @@
 
 
 
-//jsonp跨域请求
-$.ajax({
+### jsonp跨域请求
+
+
+
+    $.ajax({
     type: "get", //请求方式
     async: true, //是否异步
     url: "http://www.domain.net/url",

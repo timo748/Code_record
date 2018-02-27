@@ -1,5 +1,6 @@
-/*************************************************数组去重********************************************/
-Array.prototype.unique = function unique() {
+### 数组去重
+
+    Array.prototype.unique = function unique() {
     var obj = {};
     for (var i = 0; i < this.length; i++) {
         var current = this[i];
@@ -13,22 +14,26 @@ Array.prototype.unique = function unique() {
     }
     obj = null;
     return this;
-}
+    }
 
-// es6数组去重
-var arr = [10, 3, 4, 5, 6, 3, 4, 5, 6, 11, 14];
 
-function fillter(arrth) {
+### es6数组去重
+
+    var arr = [10, 3, 4, 5, 6, 3, 4, 5, 6, 11, 14];
+
+    function fillter(arrth) {
+
     return arrth.filter(function(ele, index, array) {
         return arrth.indexOf(ele) === index
     })
-}
-console.log(fillter(arr));
+    }
+    console.log(fillter(arr));
 
 
 
-/*************************************************冒泡排序********************************************/
-Array.prototype.bubbleSort = function bubbleSort() {
+### 冒泡排序
+
+    Array.prototype.bubbleSort = function bubbleSort() {
     var temp = null;
     for (var i = 0; i < this.length - 1; i++) {
         for (var k = 0; k < this.length - 1 - i; k++) {
@@ -40,16 +45,18 @@ Array.prototype.bubbleSort = function bubbleSort() {
         }
     }
     return this;
-}
+    }
 
 
 
 
-/*************************************************实现jsonp********************************************/
+### 实现jsonp
+
 //根据指定的URL发送一个JSONP请求
 //然后把解析得到的响应数据传递给回调函数
 //在URL中添加一个名为jsonp的查询参数，用于指定该请求的回调函数的名称
 function getJSONP(url, callback) { //为本次请求创建一个唯一的回调函数名称
+
     var cbnum = "cb" + getJSONP.counter++; //每次自增计数器
     var cbname = "getJSONP." + cbnum; //作为JSONP函数的属性
     //将回调函数名称以表单编码的形式添加到URL的查询部分中
@@ -71,11 +78,12 @@ function getJSONP(url, callback) { //为本次请求创建一个唯一的回调�
     }; //立即触发HTTP请求
     script.src = url; //设置脚本的URL
     document.body.appendChild(script); //把它添加到文档中
-}
-getJSONP.counter = 0; //用于创建唯一回调函数名称的计数器
 
 
-/***********************************************拖拽事件*************************************************/
+//用于创建唯一回调函数名称的计数器
+
+### 拖拽事件
+
 /**
  *Drag.js：拖动绝对定位的HTML元素
  *
@@ -91,7 +99,9 @@ getJSONP.counter = 0; //用于创建唯一回调函数名称的计数器
  *
  *event：mousedown事件对象
  **/
-function drag(elementToDrag, event) { //初始鼠标位置，转换为文档坐标
+
+
+    function drag(elementToDrag, event) { //初始鼠标位置，转换为文档坐标
     var startX = event.clientX;
     var startY = event.clientY; //在文档坐标下，待拖动元素的初始位置
     //因为elementToDrag是绝对定位的，
@@ -145,21 +155,23 @@ function drag(elementToDrag, event) { //初始鼠标位置，转换为文档坐�
         if (e.stopPropagation) e.stopPropagation(); //标准模型
         else e.cancelBubble = true; //IE
     }
-}
+    }
 
 
-/*************************************************每三位数加逗号******************************************/
-function commafy(num) {
+### 每三位数加逗号
+
+    function commafy(num) {
     return num && num
         .toString()
         .replace(/(\d)(?=(\d{3})+\.)/g, function($1, $2) {
             return $2 + ',';
         });
-}
+       }
 
 
-/*********************************************递归实现一个深拷贝*****************************************/
-function deepClone(source) {
+### 递归实现一个深拷贝
+
+    function deepClone(source) {
     if (!source || typeof source !== 'object') {
         throw new Error('error arguments', 'shallowClone');
     }
@@ -175,9 +187,11 @@ function deepClone(source) {
         }
     }
     return targetObj;
-}
-// test example
-var o1 = {
+    }
+    
+    // test example
+    
+    var o1 = {
     arr: [1, 2, 3],
     obj: {
         key: 'value'
@@ -185,17 +199,24 @@ var o1 = {
     func: function() {
         return 1;
     }
-};
-var o3 = deepClone(o1);
-console.log(o3 === o1); // => false
-console.log(o3.obj === o1.obj); // => false
-console.log(o2.func === o1.func); // => true
+    };
+    var o3 = deepClone(o1);
+    
+    console.log(o3 === o1); // => false
+    
+    console.log(o3.obj === o1.obj); // => false
+    
+    console.log(o2.func === o1.func); // => true
 
-// 利用JSON序列化实现一个深拷贝
-function deepClone(source) {
+
+
+
+### 利用JSON序列化实现一个深拷贝
+
+    function deepClone(source) {
     return JSON.parse(JSON.stringify(source));
-}
-var o1 = {
+    }
+    var o1 = {
     arr: [1, 2, 3],
     obj: {
         key: 'value'
@@ -203,14 +224,13 @@ var o1 = {
     func: function() {
         return 1;
     }
-};
-var o2 = deepClone(o1);
-console.log(o2); // => {arr: [1,2,3], obj: {key: 'value'}}
+    }
+    var o2 = deepClone(o1);
+    console.log(o2); // => {arr: [1,2,3], obj: {key: 'value'}}
 
+### 过身份证号码识别“生日”和“性别
 
-
-/******************通过身份证号码识别“生日”和“性别”**************************/
-function getBirthday(iIdNo) {
+    function getBirthday(iIdNo) {
     if (iIdNo.length == 15) {
         tmpStr = iIdNo.substr(6, 6);
         tmpStr = "19" + tmpStr;
@@ -220,10 +240,11 @@ function getBirthday(iIdNo) {
         tmpStr = tmpStr.substring(0, 4) + "-" + tmpStr.substring(4, 6) + "-" + tmpStr.substring(6)
     }
     console.log(tmpStr);
-}
-getBirthday("441481199303163875");
-
-function getSex(iIdNo) {
+    }
+    
+    getBirthday("441481199303163875");
+    
+    function getSex(iIdNo) {
     if (iIdNo.length == 18) {
         sexno = iIdNo.substring(16, 17)
     } else if (iIdNo.length == 15) {
@@ -236,27 +257,34 @@ function getSex(iIdNo) {
         sex = '男';
     }
     console.log(sex);
-}
-getSex("441481199303163875");
+    }
+    
+    getSex("441481199303163875");
+    
+    
+### 当元素滚动到一定距离时固定在顶部
 
 
 
-
-/******************当元素滚动到一定距离时固定在顶部*********************/
-var $elem = $('.test').eq(0);
-var offset_top = $elem.offset().top;
-var $window = $(window);
-$window.on('scroll resize', function() {
+    var elem = ('.test').eq(0);
+    var offset_top = $elem.offset().top;
+    var window = (window);
+    $window.on('scroll resize', function() {
     if ($window.scrollTop() >= offset_top) {
         $elem.addClass('fixed');
     } else {
         $elem.removeClass('fixed');
     }
-}).trigger('scroll');
+    }).trigger('scroll');
 
-//测试css属性浏览器是否支持，如果支持使用css3属性，不支持使用js
-//Sticky属性
-function isSupportSticky() {
+
+### 测试css属性浏览器是否支持，如果支持使用css3属性，不支持使用js
+
+#### Sticky属性
+
+
+
+    function isSupportSticky() {
     var prefixTestList = ['', '-webkit-', '-ms-', '-moz-', '-o-'];
     var stickyText = '';
     for (var i = 0; i < prefixTestList.length; i++) {
@@ -271,10 +299,10 @@ function isSupportSticky() {
     body.removeChild(div);
     div = null;
     return isSticky;
-}
-var $nav = $('#nav');
-// 如果不支持
-if (!isSupportSticky()) {
+    }
+    var nav = ('#nav');
+    // 如果不支持
+    if (!isSupportSticky()) {
     // 添加jshack
     $nav.addClass('nav-hack').append('<span>，不支持sticky</span>');
     var offset_top = $nav.offset().top;
@@ -290,15 +318,17 @@ if (!isSupportSticky()) {
             $nav.removeClass('nav-fixed');
         }
     }).trigger('scroll');
-} else {
+    } else {
     $nav.append('<span>，你支持sticky</span>');
-}
+    }
+
+### 滚动到可视页面加载图片
 
 
-/***************************滚动到可视页面加载图片*****************************/
-let imgs = document.getElementsByTagName("img");
-let n = 0; //存储加载图片索引
-let lazyload = () => {
+
+    let imgs = document.getElementsByTagName("img");
+    let n = 0; //存储加载图片索引
+    let lazyload = () => {
     let cHeight = document.documentElement.clientHeight;
     var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
     //滚动条距离顶部高度
@@ -309,13 +339,15 @@ let lazyload = () => {
             n = i + 1;
         }
     }
-}
-window.onscroll = lazyload;
+    }
+    window.onscroll = lazyload;
 
 
-/***************************节流防抖函数*****************************/
-// 防抖函数
-function debounce(fn, wait) {
+### 节流防抖函数
+
+#### 防抖函数
+
+    function debounce(fn, wait) {
     var timer = null;
     return function() {
         var context = this
@@ -328,20 +360,17 @@ function debounce(fn, wait) {
             fn.apply(context, args)
         }, wait)
     }
-}
-
-var fn = function() {
+    }
+    var fn = function() {
     console.log('boom')
-}
+    }
+    setInterval(debounce(fn, 500), 1000) // 第一次在1500ms后触发，之后每1000ms触发一次
+    setInterval(debounce(fn, 2000), 1000) // 不会触发一次（我把函数防抖看出技能读条，如果读条没完成就用技能，便会失败而且重新读条）
+### 节流函数
 
-setInterval(debounce(fn, 500), 1000) // 第一次在1500ms后触发，之后每1000ms触发一次
 
-setInterval(debounce(fn, 2000), 1000) // 不会触发一次（我把函数防抖看出技能读条，如果读条没完成就用技能，便会失败而且重新读条）
-
-// 节流函数
-function throttle(fn, gapTime) {
+    function throttle(fn, gapTime) {
     let _lastTime = null;
-
     return function() {
         let _nowTime = +new Date()
         if (_nowTime - _lastTime > gapTime || !_lastTime) {
@@ -349,10 +378,8 @@ function throttle(fn, gapTime) {
             _lastTime = _nowTime
         }
     }
-}
-
-let fn = () => {
+    }
+    let fn = () => {
     console.log('boom')
-}
-
-setInterval(throttle(fn, 1000), 10)
+    }
+    setInterval(throttle(fn, 1000), 10)
