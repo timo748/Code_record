@@ -79,13 +79,15 @@ body{}
 
  <div class="choose"><label><input type=":checked">香蕉</label></div>   多个选择
 
-移动端惯性滑动：
--webkit-overflow-scrolling:touch;
+### 移动端惯性滑动：
 
+### -webkit-overflow-scrolling:touch;
 
-表单中有样式选择：
+### 表单中有样式选择：
+
  <label for="question11" class="answer">
   <input type="radio" name="question1" id="question11" value="" class="val-error" data-required="question1">
+
     <span class="radio-span"><i class="circle"></i>AAA</span>
 </label>
 <label for="question12" class="answer">
@@ -101,8 +103,8 @@ css：
     color: #f2a809;
 }
 
+### 更改光标的颜色
 
-更改光标的颜色
 input{
   caret-color:red;   /*改变光标颜色*/
   color: #000;
@@ -193,8 +195,7 @@ img {
 
 
 
-
-使用css创建三角形
+### 使用css创建三角形
 
 div {
     border-bottom: 10px solid white;
@@ -216,8 +217,8 @@ img {
 常见动画网站:
 http://isux.tencent.com/css3/
 
+### 有弹窗锁定背景：
 
-有弹窗锁定背景：
 方法一：
 .lock-back{
 height: 100%;
