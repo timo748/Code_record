@@ -90,7 +90,35 @@ Promise.resolve([1,2,3]).then((data)=>{//直接初始化一个Promise并执行re
 }
 ```
 
+### 浅拷贝
 
+var nameObj = { name: { school: 'zfpx' } };
+var ageObj = { age: 9 };
+var obj = {};
+Object.assign(obj, nameObj, ageObj);
+console.log(obj);
+
+### 递归深拷贝
+
+let obj = {
+​    name: 'zfpx',
+​    home: ['1', 2, { name: 1 }],
+​    address: { name: '回龙观' }
+}
+function deepClone(parent, c) {
+​    let child = c || {}
+​    for (let key in parent) {
+​        if (typeof parent[key] === 'object') {
+​            child[key] = Object.prototype.toString.call(parent[key]) === '[object Array]' ? [] : {}
+​            deepClone(parent[key], child[key])
+​        } else {
+​            child[key] = parent[key]
+​        }
+​    }
+​    return child
+}
+let cloneObj = deepClone(obj);
+console.log(cloneObj);
 
 
 
