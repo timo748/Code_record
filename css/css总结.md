@@ -12,6 +12,16 @@
 
 ```
 animation：动画名称，一个周期花费时间，运动曲线（默认ease），动画延迟（默认0），播放次数（默认1）infinite，是否反向播放动画（默认normal），是否暂停动画（默认running）
+
+      简写的姿势排序
+      @keyframes name : 动画名
+      duration 持续时间
+      timing-function 动画频率
+      delay 延迟多久开始
+      iteration-count 循环次数
+      direction 动画方式,往返还是正向
+      fill-mode  一般用来处理停留在某一帧
+      play-state running 开始,paused 暂停 ...
 ```
 
 沿着x轴旋转度数：translate:rotoateX(180deg)；
@@ -254,6 +264,23 @@ IOS系统调用第三方输入法时，系统无法监测到input的input、focu
 使用url传参时，特殊字符无法识别？如"#"
 解决办法: 传参时,使用encodeURIComponent(url)转义，解析url用
 decodeURIComponent(url)
+
+
+
+### flex
+
+flex三格布局
+
+.box {
+​       display: flex;
+​       flex-wrap: wrap;
+​       width: 100%;
+​     }
+​     .box div {
+​        width: calc(100% / 3 - 2px);
+​        height: 100px;
+​        border: 1px solid black;
+​     }
 
 
 
