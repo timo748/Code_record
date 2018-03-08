@@ -1,16 +1,13 @@
 ## css3过渡动画
 
+```
 transition:设置四个过渡属性；
-
 元素动画过渡时间：transition-duration: 2s;
-
 元素过渡等待时间：transition-delay：2s
-
 元素过渡属性名称：transition-property：width;
-
 元素过渡速度：transition-timing-function：ease-in;
-
 简写：transition: width 1s linear 2s;
+```
 
 ## 动画
 
@@ -26,29 +23,21 @@ animation：动画名称，一个周期花费时间，运动曲线（默认ease�
       direction 动画方式,往返还是正向
       fill-mode  一般用来处理停留在某一帧
       play-state running 开始,paused 暂停 ...
-```
-
+      
 沿着x轴旋转度数：translate:rotoateX(180deg)；
-
 移动位置距离：transform:translateX(100px)；
-
 缩放倍数：transform:scaleX(0.5);
-
 倾斜角度：transform: skew(10deg,10deg);
-
 X轴3D旋转：transform:rotateX(180deg);
-
 3D旋转：transform:rotate3d(10,10,10,90deg);
-
 在动画显示之前，应用开始属性值：animation-fill-mode:backwards；
+```
 
 ## 阴影
 
 ```
 box-shadow: 水平阴影的位置 垂直阴影的位置 模糊距离 阴影的大小 阴影的颜色 阴影开始方向（默认是从里往外，设置inset就是从外往里）;
 ```
-
-eg： box-shadow: 10px 10px 5px #888888;
 
 ## 倒影
 
@@ -62,33 +51,28 @@ eg： box-shadow: 10px 10px 5px #888888;
 线性渐变：-moz-linear-gradient( [<point> || <angle>,]? <stop>, <stop> [, <stop>]* )
 径向渐变：radial-gradient
 圆锥渐变：background: conic-gradient(deeppink, yellowgreen);
+参数：其共有三个参数，第一个参数表示线性渐变的方向，top是从上到下、left是从左到右，如果定义成left top，那就是从左上角到右下角。第二个和第三个参数分别是起点颜色和终点颜色。你还可以在它们之间插入更多的参数，表示多种颜色的渐变。
+eg：background: repeating-conic-gradient(deeppink015deg, yellowgreen030`deg);
+conic-gradient(#f1462c` `0` `12.5%, #fba73e` `0` `25%, #e0fa4e` `0` `37.5%, #12dd7e` `0` `50%, #0a6e3f` `0` `62.5%, #fff` `0` `100%);
 ```
-
-**参数：**其共有三个参数，第一个参数表示线性渐变的方向，top是从上到下、left是从左到右，如果定义成left top，那就是从左上角到右下角。第二个和第三个参数分别是起点颜色和终点颜色。你还可以在它们之间插入更多的参数，表示多种颜色的渐变。
-
-eg：background``: repeating-conic-gradient(deeppink ``0` `15``deg, yellowgreen ``0` `30``deg);`
-
-conic-gradient(``#f1462c` `0` `12.5%``, ``#fba73e` `0` `25%``, ``#e0fa4e` `0` `37.5%``, ``#12dd7e` `0` `50%``, ``#0a6e3f` `0` `62.5%``, ``#fff` `0` `100%``);
 
 ### css实现计数
 
-/* counter-reset:属性创建或重置一个或多个计数器 */
-
-
-/* counter-increment:属性递增一个或多个计数器
-content：与:before及:after伪元素配合使用，来插入生成内容 */
-
-.choose {
+    /* counter-reset:属性创建或重置一个或多个计数器 */
+    /* counter-increment:属性递增一个或多个计数器
+    content：与:before及:after伪元素配合使用，来插入生成内容 */
+    .choose {
     counter-reset: fruit;
-}
-
-.choose input:checked {
+    }
+    .choose input:checked {
     counter-increment: fruit;
-}
-
-.count::before {
+    }
+    .count::before {
     content: counter(fruit);
-}
+    }
+
+
+
 body{}
 
  <div class="choose"><label><input type=":checked">香蕉</label></div>   多个选择
@@ -198,17 +182,15 @@ background: linear-gradient(direction, color-stop1, color-stop2, ...);
 
 CSS3 filter Property 图片过滤
 
-img {
+
+    img {
     filter: grayscale(100%); //灰度
     filter: blur(5px); //模糊
     filter:brightness(200%); //高亮
     filter:saturate(8); //饱和
     filter:sepia(100%); //怀旧
     ...
-}
-
-
-
+    }
 ### 使用css创建三角形
 
 div {
@@ -233,17 +215,16 @@ http://isux.tencent.com/css3/
 
 ### 有弹窗锁定背景：
 
+```
 方法一：
 .lock-back{
 height: 100%;
 overflow: hidden;
 }
-
 // 弹出时
 $('html, body').addClass('lock-back');
 // 隐藏时
 $('html, body').removeClass('lock-back');
-
 方法二：
 // 弹出时
 $('body').css({
@@ -256,6 +237,7 @@ $('body').css({
 position: static
 });
 window.scrollTo(0, top);
+```
 
 
 
@@ -271,20 +253,20 @@ decodeURIComponent(url)
 
 
 
-### flex
+### flex三格布局
 
-flex三格布局
-
+```
 .box {
-​       display: flex;
-​       flex-wrap: wrap;
-​       width: 100%;
-​     }
-​     .box div {
-​        width: calc(100% / 3 - 2px);
-​        height: 100px;
-​        border: 1px solid black;
-​     }
+       display: flex;
+       flex-wrap: wrap;
+       width: 100%;
+     }
+     .box div {
+        width: calc(100% / 3 - 2px);
+        height: 100px;
+        border: 1px solid black;
+     }
+```
 
 
 
