@@ -1,5 +1,7 @@
 ## css3过渡动画
 
+transition:设置四个过渡属性；
+
 元素动画过渡时间：transition-duration: 2s;
 
 元素过渡等待时间：transition-delay：2s
@@ -7,6 +9,8 @@
 元素过渡属性名称：transition-property：width;
 
 元素过渡速度：transition-timing-function：ease-in;
+
+简写：transition: width 1s linear 2s;
 
 ## 动画
 
