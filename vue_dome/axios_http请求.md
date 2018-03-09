@@ -1,89 +1,175 @@
+### 拦截器
+
 ```
-'use strict'
+// http请求拦截器
+axios.interceptors.request.use((config) => {
+    let tokens = null;
+    // 获取存储在cookie中的值，如果存在则在每个ajax请求的头部加上
+    document.cookie.split(';').forEach((e, i) => {
+        if(e.split('=')[0].trim() === 'token') tokens = e.split('=')[1];
+    });
+    if(tokens && typeof tokens === 'string') config.headers.Authorization = tokens;
+    return config;
+}, (err) => {
+    return Promise.reject(err);
+});
 
-import axios from 'axios'
-import qs from 'qs'
+// http响应拦截器
+axios.interceptors.response.use((config) => {
+    return config;
+}, (err) => {
+    if(err.response) {
+        // 根据返回的错误状态码，跳转到对应的缺省页面
+        let handle = { 404: 'http://www.aylan.me/404', 501: 'http://www.aylan.me/error' };
+        if(!handle[err.response.status]===undefined) router.push(handle[err.response.status]);
+    }
+    // 返回对应的错误信息，可以在axios中的catch中继续处理
+    return Promise.reject(err.response.data);
+});
+```
 
-axios.interceptors.request.use(config => {
-  // loading
-  return config
-}, error => {
-  return Promise.reject(error)
-})
+### GET请求
 
-axios.interceptors.response.use(response => {
-  return response
-}, error => {
-  return Promise.resolve(error.response)
-})
-
-function checkStatus (response) {
-  // loading
-  // 如果http状态码正常，则直接返回数据
-  if (response && (response.status === 200 || response.status === 304 || response.status === 400)) {
-    return response
-    // 如果不需要除了data之外的数据，可以直接 return response.data
-  }
-  // 异常状态下，把错误信息返回去
-  return {
-    status: -404,
-    msg: '网络异常'
-  }
+```
+/*
+** get(url,data).then((res) => { console.log(res) });
+** 
+** @params url——请求地址（必填），data——请求参数（非必填）
+** @params res——服务器返回结果
+*/
+function get(url, data) {
+    if(!url || typeof url !== 'string') throw new Error('必须传入字符串类型的url地址');
+    let formData = {
+        url: url,
+        method: 'GET',
+        // 设置请求头为application/x-www-form-urlencoded
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        // 将序列化参数转换为字符串，使用这种方法需要先引入qs，也可以直接用JSON.stringify()进行转换
+        paramsSerializer: function(params) {
+                return Qs.stringify( params, { arrayFormat: 'brackets' } );
+        },
+        // 设置跨域请求为true，如果是cros同源请求的话，则可以不用加此项
+        withCredentials: true
+    };
+    // 判断data的类型是否为Object
+    if(typeof data !== 'object') throw new Error('data为对象类型');
+    // 判断参数是否存在，存在则传入方法中
+    if(data && typeof data === 'object') formData.params = data;
+    // 使用Promise方法异步处理请求
+    return new Promise(function(resolve, reject) {
+        axios(formData).then(function(res) {
+            // 后端返回的数据挂载在res.data内
+            resolve(res.data);
+        }).catch(function(err) {
+            // 报错处理
+            message('服务器异常，请稍后再试');
+        })
+    });
 }
+```
 
-function checkCode (res) {
-  // 如果code异常(这里已经包括网络错误，服务器错误，后端抛出的错误)，可以弹出一个错误提示，告诉用户
-  if (res.status === -404) {
-    alert(res.msg)
-  }
-  if (res.data && (!res.data.success)) {
-    alert(res.data.error_msg)
-  }
-  return res
+### POST请求
+
+```
+/*
+** post(url,data).then((res) => { console.log(res) });
+** 
+** @params url——请求地址（必填），data——请求参数（非必填）
+** @params res——服务器返回结果
+*/
+function post(url, data) {
+    if(!url || typeof url !== 'string') throw new Error('必须传入字符串类型的url地址');
+    let formData = {
+        url: url,
+        method: 'POST',
+        // 设置请求头为application/json
+        headers: {
+            "Content-Type": "application/json"
+        },
+        // 设置跨域请求为true，如果是cros同源请求的话，则可以不用加此项
+        withCredentials: true
+    };
+    // 判断data的类型是否为Object
+    if(typeof data !== 'object') throw new Error('data为对象类型');
+    // 判断参数是否存在，存在则传入方法中
+    if(data && typeof data === 'object') formData.data= data;
+    // 使用Promise方法异步处理请求
+    return new Promise(function(resolve, reject) {
+        axios(formData).then(function(res) {
+            // 后端返回的数据挂载在res.data内
+            resolve(res.data);
+        }).catch(function(err) {
+            // 报错处理
+            message('服务器异常，请稍后再试');
+        })
+    });
 }
+```
 
-export default {
-  post (url, data) {
-    return axios({
-      method: 'post',
-      baseURL: 'https://cnodejs.org/api/v1',
-      url,
-      data: qs.stringify(data),
-      timeout: 10000,
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-      }
-    }).then(
-      (response) => {
-        return checkStatus(response)
-      }
-    ).then(
-      (res) => {
-        return checkCode(res)
-      }
-    )
-  },
-  get (url, params) {
-    return axios({
-      method: 'get',
-      baseURL: 'https://cnodejs.org/api/v1',
-      url,
-      params, // get 请求时带的参数
-      timeout: 10000,
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest'
-      }
-    }).then(
-      (response) => {
-        return checkStatus(response)
-      }
-    ).then(
-      (res) => {
-        return checkCode(res)
-      }
-    )
-  }
+### JSONP请求
+
+```
+/*
+** jsonp(url).then((res) => { console.log(res) });
+** 
+** @params url——请求地址（必填）
+** @params res——服务器返回结果
+*/
+function jsonp(url) {
+    // 判断url是否存在以及是否为字符串
+    if(!url || typeof url !== 'string') throw new Error('必须传入字符串类型的url地址');
+    return new Promise((resolve,reject) => {
+        // 处理返回的结果
+        window.jsonCallBack = (result) => {
+            resolve(result)
+        }
+        // 在页面创建script标签，并将src设置为请求地址，取回数据之后移除script标签
+        let JSONP = document.createElement("script");
+        JSONP.type = "text/javascript";
+        JSONP.src = `${url}&callback=jsonCallBack`;
+        document.getElementsByTagName("head")[0].appendChild(JSONP);
+        setTimeout(() => {
+            document.getElementsByTagName("head")[0].removeChild(JSONP)
+        },500)
+    })
+}
+```
+
+### 上传文件
+
+```
+/*
+** upload(url,data).then((res) => { console.log(res) });
+** 
+** @params url——请求地址（必填）,data——请求参数，FormData对象（必填）
+** @params res——服务器返回结果
+*/
+function upload(url, data) {
+    // 对url以及data进行类型检测
+    if(!url || typeof url !== 'string') throw new Error('必须传入字符串类型的url地址');
+    if(!data || typeof data !== 'function') throw new Error('内容不能为空');
+    let formData = {
+        url: url,
+        method: 'POST',
+            // 设置请求头为multipart/form-data
+        headers: {  
+              'Content-Type': 'multipart/form-data'
+        },
+        data: data,
+            // 设置跨域请求为true
+        withCredentials: true
+    };
+    return new Promise(function(resolve, reject) {
+        axios(formData).then(function(res) {
+            // 后端返回的数据挂载在res.data内
+            resolve(res.data)
+        }).catch(function(err) {
+            // 报错处理
+            message('服务器异常，请稍后再试');
+        })
+    });
 }
 ```
 
