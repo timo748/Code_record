@@ -138,7 +138,13 @@ vm.stu = Object.assign({}, vm.stu, { gender: 'female', height: 180 })
     bus.$emit('eventName',123);
 ```
 
+### vue按需加载
 
+```
+webpack中提供了require.ensure()来实现按需加载。以前引入路由是通过import 这样的方式引入，改为const定义的方式进行引入。
+不进行页面按需加载引入方式：import  home   from '../../common/home.vue'
+进行页面按需加载的引入方式：const  home = r => require.ensure( [], () => r (require('../../common/home.vue')))
+```
 
 
 
