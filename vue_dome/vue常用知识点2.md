@@ -47,9 +47,7 @@ Vue.set(vm.stu, 'gender', 'male')
 vm.stu = Object.assign({}, vm.stu, { gender: 'female', height: 180 })
 ```
 
-
-
-###vue生命周期
+### vue生命周期
 
 ```
 1. 根组件实例：8个 (beforeCreate、created、beforeMount、mounted、beforeUpdate、updated、beforeDestroy、destroyed)
@@ -73,9 +71,75 @@ vm.stu = Object.assign({}, vm.stu, { gender: 'female', height: 180 })
     beforeDestroy/destroyed
 ```
 
+### 常用属性
 
+```
+1、watch
+   1. 表单元素的双向数据绑定
+   v-model="myValue"
+   2.监听
+    watch:{
+    myValue:function(newValue,oldValue){
+    
+    }
+    }
+   
+2、computed
+    计算属于是用于在模板中，搞定复杂的业务逻辑，因为有依赖缓存。
+    1.指定计算属性
+        computed:{
+          myHandle:function(){
+            return 数据
+          }
+        } 
+    2.调用
+        <any>{{myHandle}}</any>
+```
 
+### 组件通信
 
+```
+1、父与子通信 （props down）
+    1.发送
+        <son myName='zhangsan'>
+        </son>
+    2.接受
+        到son组件：
+        Vue.component('son',{
+          props:['myName'],
+          template:`
+           <p>{{myName}}</p>
+          `
+        }) 
+                   
+         
+2、子与父通信 (events up)
+     1.绑定
+    methods:{
+      handleEvent:function(msg){}
+    }
+    <son @customEvent="handleEvent"></son>
+    2.触发
+    子组件内部：
+    this.$emit(‘customEvent’,100);
+    
+3、ref(reference 引用/参考 外号)
+ 帮助在父组件中 得到子组件中的数据、方法。
+    1.指定ref属性
+    <son ref="mySon"></son>
+    2.根据ref得到子组件实例
+    this.$refs.mySon
+    
+4、$parent
+    this.$parent得到父组件的实例
+    
+5、兄弟组件通信
+    1.var bus = new Vue();
+    2.接收方
+    bus.$on('eventName',function(msg){})
+    3.发送方
+    bus.$emit('eventName',123);
+```
 
 
 
