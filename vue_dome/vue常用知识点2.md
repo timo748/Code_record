@@ -25,12 +25,10 @@
 
 ### 动态添加数据
 
-- 1 `Vue.set(object, key, value)` - 适用于添加单个属性
-- 2 `Object.assign()` - 适用于添加多个属性
-
-eg：
-
 ```
+-1 Vue.set(object, key, value) - 适用于添加单个属性
+-2 Object.assign() - 适用于添加多个属性
+eg：
 var vm = new Vue({
   data: {
     stu: {
@@ -80,9 +78,8 @@ vm.stu = Object.assign({}, vm.stu, { gender: 'female', height: 180 })
    2.监听
     watch:{
     myValue:function(newValue,oldValue){
-    
     }
-    }
+   }
    
 2、computed
     计算属于是用于在模板中，搞定复杂的业务逻辑，因为有依赖缓存。
