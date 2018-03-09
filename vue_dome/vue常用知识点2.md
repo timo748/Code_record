@@ -51,6 +51,7 @@ vm.stu = Object.assign({}, vm.stu, { gender: 'female', height: 180 })
 
 ###vue生命周期
 
+```
 1. 根组件实例：8个 (beforeCreate、created、beforeMount、mounted、beforeUpdate、updated、beforeDestroy、destroyed)
 2. 组件实例：8个 (beforeCreate、created、beforeMount、mounted、beforeUpdate、updated、beforeDestroy、destroyed)
 3. 全局路由钩子：2个 (beforeEach、afterEach)
@@ -58,6 +59,22 @@ vm.stu = Object.assign({}, vm.stu, { gender: 'female', height: 180 })
 5. 指令的周期： 5个 (bind、inserted、update、componentUpdated、unbind)
 6. beforeRouteEnter的next所对应的周期
 7. nextTick所对应的周期
+
+
+四个阶段：
+    create 准备工作 （数据的初始化...）
+    mount  挂载前后针对元素进行操作
+    update 数据发生变化，
+    destroy 清理工作 (关闭定时器、集合清空..) 
+
+    beforeCreate/created
+    beforeMount/mounted
+    beforeUpdate/updated
+    beforeDestroy/destroyed
+```
+
+
+
 
 
 
