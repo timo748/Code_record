@@ -14,15 +14,15 @@ transition:设置四个过渡属性；
 ```
 animation：动画名称，一个周期花费时间，运动曲线（默认ease），动画延迟（默认0），播放次数（默认1）infinite，是否反向播放动画（默认normal），是否暂停动画（默认running）
 
-      简写的姿势排序
-      @keyframes name : 动画名
-      duration 持续时间
-      timing-function 动画频率
-      delay 延迟多久开始
-      iteration-count 循环次数
-      direction 动画方式,往返还是正向
-      fill-mode  一般用来处理停留在某一帧
-      play-state running 开始,paused 暂停 ...
+简写的姿势排序
+animation-name 动画的名称(由@keyframes定义)
+animation-delay 动画延时
+animation-direction 定义动画完成后，是从初始状态还是从最终状态重复动画
+animation-duration 动画时长
+animation-iteration-count 动画重复次数
+animation-play-state 播放或暂停动画
+animation-timing-function 设置动画关键帧之间的运动函数
+animation-fill-mode 指定动画前后如何为元素应用样式
       
 沿着x轴旋转度数：translate:rotoateX(180deg)；
 移动位置距离：transform:translateX(100px)；
@@ -31,6 +31,31 @@ animation：动画名称，一个周期花费时间，运动曲线（默认ease�
 X轴3D旋转：transform:rotateX(180deg);
 3D旋转：transform:rotate3d(10,10,10,90deg);
 在动画显示之前，应用开始属性值：animation-fill-mode:backwards；
+```
+
+### 2/3D变换
+
+```
+2D：
+位移：translate(12px, 50%); 单位可指定 px % em rem
+缩放：scale(x, y)
+斜切：skew(0deg, 0deg)
+旋转：rotate(0deg)
+矩阵：matrix(0, 0, 0, 0, 0, 0)
+
+3D：
+位移：translateX() / translateY() / translateZ() /translate3d()
+缩放：scaleX() / scaleZ() / scaleY() / scale3d(2.5, 1.2, 0.3);
+斜切：skewX() / skewY()
+旋转：rotate3d(1, 2.0, 3.0, 10deg);
+矩阵：matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+
+3D变形属性：
+.parent {
+  perspective: 300px; 透视点
+  perspective-origin: center center; 观察者(消失点)的位置(默认为中心点)
+  backface-visibility: visible; 3D元素的背面是否可见(默认是visible)
+}
 ```
 
 ## 阴影
@@ -268,7 +293,55 @@ decodeURIComponent(url)
      }
 ```
 
+### 边框1px问题
 
+```
+单条border
+.scale-1px{
+position: relative;
+border:none;
+}
+.scale-1px:after{
+content: '';
+position: absolute;
+bottom: 0;
+background: #000;
+width: 100%;
+height: 1px;
+-webkit-transform: scaleY(0.5);
+transform: scaleY(0.5);
+-webkit-transform-origin: 0 0;
+transform-origin: 0 0;
+}
+
+四条border
+.scale-1px{
+position: relative;
+margin-bottom: 20px;
+border:none;
+}
+.scale-1px:after{
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+border: 1px solid #000;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+width: 200%;
+height: 200%;
+-webkit-transform: scale(0.5);
+transform: scale(0.5);
+-webkit-transform-origin: left top;
+transform-origin: left top;
+}
+
+
+使用前可以判断是否retina屏幕
+if(window.devicePixelRatio && devicePixelRatio >= 2){
+document.querySelector('ul').className = 'scale-1px';
+}
+```
 
 
 
