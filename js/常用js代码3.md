@@ -1,28 +1,30 @@
 ### 判断设备来源
 
+```
 function deviceType(){
-​        var ua = navigator.userAgent;
-​        var agent = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];    
-​        for(var i=0; i<len,len = agent.length; i++){
-​            if(ua.indexOf(agent[i])>0){         
-​                break;
-​            }
-​        }
-​    }
-​    deviceType();
-​    window.addEventListener('resize', function(){
-​        deviceType();
-​    })
+        var ua = navigator.userAgent;
+        var agent = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];    
+        for(var i=0; i<len,len = agent.length; i++){
+            if(ua.indexOf(agent[i])>0){         
+                break;
+            }
+        }
+    }
+    deviceType();
+    window.addEventListener('resize', function(){
+        deviceType();
+    })
 
-​    微信的 有些不太一样
-​    function isWeixin(){
-​        var ua = navigator.userAgent.toLowerCase();
-​        if(ua.match(/MicroMessenger/i)=='micromessenger'){
-​            return true;
-​        }else{
-​            return false;
-​        }
-​    }
+    //微信的 有些不太一样
+    function isWeixin(){
+        var ua = navigator.userAgent.toLowerCase();
+        if(ua.match(/MicroMessenger/i)=='micromessenger'){
+            return true;
+        }else{
+            return false;
+        }
+    }
+```
 
 ### 获取当前时间
 
@@ -92,35 +94,68 @@ Promise.resolve([1,2,3]).then((data)=>{//直接初始化一个Promise并执行re
 
 ### 浅拷贝
 
+```
 var nameObj = { name: { school: 'zfpx' } };
 var ageObj = { age: 9 };
 var obj = {};
 Object.assign(obj, nameObj, ageObj);
 console.log(obj);
+```
 
 ### 递归深拷贝
 
+```
 let obj = {
-​    name: 'zfpx',
-​    home: ['1', 2, { name: 1 }],
-​    address: { name: '回龙观' }
+    name: 'zfpx',
+    home: ['1', 2, { name: 1 }],
+    address: { name: '回龙观' }
 }
 function deepClone(parent, c) {
-​    let child = c || {}
-​    for (let key in parent) {
-​        if (typeof parent[key] === 'object') {
-​            child[key] = Object.prototype.toString.call(parent[key]) === '[object Array]' ? [] : {}
-​            deepClone(parent[key], child[key])
-​        } else {
-​            child[key] = parent[key]
-​        }
-​    }
-​    return child
+    let child = c || {}
+    for (let key in parent) {
+        if (typeof parent[key] === 'object') {
+            child[key] = Object.prototype.toString.call(parent[key]) === '[object Array]' ? [] : {}
+            deepClone(parent[key], child[key])
+        } else {
+            child[key] = parent[key]
+        }
+    }
+    return child
 }
 let cloneObj = deepClone(obj);
 console.log(cloneObj);
+```
 
+### 节流函数
 
+```
+/**
+ * 配置节流函数
+ * @param  {[Function]}  fn     [要执行的函数]
+ * @param  {[Number]}  delay    [延迟执行的毫秒数]
+ * @param  {[Number]}  mustRun  [至少多久执行一次]
+ * @return {[Function]}         [节流函数]
+ */
+exports.throttle = (fn, wait, mustRun) => {
+    let timeout;
+    let startTime = new Date();
+    return function() {
+        let context = this;
+        let args = arguments;
+        let curTime = new Date();
+
+        clearTimeout(timeout);
+        // 如果达到了规定的触发时间间隔，触发 handler
+        if (curTime - startTime >= mustRun) {
+            fn.apply(context, args);
+            startTime = curTime;
+            // 没达到触发间隔，重新设定定时器
+        } else {
+            timeout = setTimeout(fn, wait);
+        }
+    };
+};
+```
 
 
 
