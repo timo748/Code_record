@@ -157,9 +157,55 @@ exports.throttle = (fn, wait, mustRun) => {
 };
 ```
 
+### 判断变量是对象还是数组
+
+```
+function isObjArr(value){
+     if (Object.prototype.toString.call(value) === "[object Array]") {
+            console.log('value是数组');
+       }else if(Object.prototype.toString.call(value)==='[object Object]'){//这个方法兼容性好一点
+            console.log('value是对象');
+      }else{
+          console.log('value不是数组也不是对象')
+      }
+}
+```
+
+### promise
+
+```
+依照 Promise/A+ 的定义，Promise 有四种状态：
+
+pending: 初始状态, 非 fulfilled 或 rejected.
+fulfilled: 成功的操作.
+rejected: 失败的操作.
+settled: Promise已被fulfilled或rejected，且不是pending
 
 
+另外， fulfilled与 rejected一起合称 settled
+Promise 对象用来进行延迟(deferred) 和异步(asynchronous) 计算
 
+构造promisr基本用法
+var promise = new Promise(function(resolve, reject) {
+
+        if (...) {  // succeed
+
+            resolve(result);
+
+        } else {   // fails
+
+            reject(Error(errMessage));
+
+        }
+    });
+
+Promise 实例拥有 then 方法（具有 then 方法的对象，通常被称为thenable）。它的使用方法如下：
+
+promise.then(onFulfilled, onRejected)
+
+
+接收两个函数作为参数，一个在 fulfilled 的时候被调用，一个在rejected的时候被调用，接收参数就是 future，onFulfilled 对应resolve, onRejected对应 reject
+```
 
 
 

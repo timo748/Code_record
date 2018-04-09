@@ -1,3 +1,48 @@
+### vue生命周期
+
+```
+  beforeCreate: 触发在加载完Vue中生命周期函数之后
+    created:      触发在加载完(props->data->computed->watch->methods)之后
+    beforeMount:  触发在Vue已经将实例挂载在el之后，渲染之前
+    mounted:      数据渲染完成
+    beforeDestroy:实例销毁前，删除实例所作用的dom解构，等同于销毁实例
+    destroyed:    实例销毁完成
+    beforeUpdate: 数据更新前，如果有数据改变，会触发，注意：此时数据已经被更改了，只是dom上未刷新
+    updated:      dom刷新完成
+	
+	this.$forceUpdate() //强制刷新dom
+	this.$destroy()     //销毁实例
+
+    activated:    组件激活，指的是从组件从缓存中被显示出来，配合keep-alive使用
+    deactivated:  组件注销，指的是从组件从dom中被删除，缓存到缓存中去，配合keep-alive使用
+    errorCaptured：组件出错，会在其父组件中被监听，如果不做处理会一直传递到Vue对象中
+    
+    
+    
+    1. 根组件实例：8个 (beforeCreate、created、beforeMount、mounted、beforeUpdate、updated、beforeDestroy、destroyed)
+2. 组件实例：8个 (beforeCreate、created、beforeMount、mounted、beforeUpdate、updated、beforeDestroy、destroyed)
+3. 全局路由钩子：2个 (beforeEach、afterEach)
+4. 组件路由钩子：3个 (beforeRouteEnter、beforeRouteUpdate、beforeRouteLeave)
+5. 指令的周期： 5个 (bind、inserted、update、componentUpdated、unbind)
+6. beforeRouteEnter的next所对应的周期
+7. nextTick所对应的周期
+
+
+四个阶段：
+    create 准备工作 （数据的初始化...）
+    mount  挂载前后针对元素进行操作
+    update 数据发生变化，
+    destroy 清理工作 (关闭定时器、集合清空..) 
+
+    beforeCreate/created
+    beforeMount/mounted
+    beforeUpdate/updated
+    beforeDestroy/destroyed
+    
+```
+
+
+
 ### vue权限判断（路由拦截）
 
 ```
@@ -43,30 +88,6 @@ Vue.set(vm.stu, 'gender', 'male')
 
 /* Object.assign 将参数中的所有对象属性和值 合并到第一个参数 并返回合并后的对象*/
 vm.stu = Object.assign({}, vm.stu, { gender: 'female', height: 180 })
-```
-
-### vue生命周期
-
-```
-1. 根组件实例：8个 (beforeCreate、created、beforeMount、mounted、beforeUpdate、updated、beforeDestroy、destroyed)
-2. 组件实例：8个 (beforeCreate、created、beforeMount、mounted、beforeUpdate、updated、beforeDestroy、destroyed)
-3. 全局路由钩子：2个 (beforeEach、afterEach)
-4. 组件路由钩子：3个 (beforeRouteEnter、beforeRouteUpdate、beforeRouteLeave)
-5. 指令的周期： 5个 (bind、inserted、update、componentUpdated、unbind)
-6. beforeRouteEnter的next所对应的周期
-7. nextTick所对应的周期
-
-
-四个阶段：
-    create 准备工作 （数据的初始化...）
-    mount  挂载前后针对元素进行操作
-    update 数据发生变化，
-    destroy 清理工作 (关闭定时器、集合清空..) 
-
-    beforeCreate/created
-    beforeMount/mounted
-    beforeUpdate/updated
-    beforeDestroy/destroyed
 ```
 
 ### 常用属性
@@ -146,9 +167,14 @@ webpack中提供了require.ensure()来实现按需加载。以前引入路由是
 进行页面按需加载的引入方式：const  home = r => require.ensure( [], () => r (require('../../common/home.vue')))
 ```
 
+### vue操作DOM
 
-
-
+```
+ref获取dom元素
+    在vue中，想要获取ref元素，可以直接给dom元素添加ref属性ref="_v"也可以以表达式的情况赋值:ref="name"
+    然后在vue实例中通过this.$refs._v获取，也可以通过this.$refs获取所有被设置了ref的dom元素
+    如果ref被设置在组件名上<name ref="zj"></name>,this.$refs.zj将直接获取到该组件的实例对象，可以直接操作该组件的一切
+```
 
 
 
