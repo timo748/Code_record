@@ -9,6 +9,22 @@
     destroyed:    实例销毁完成
     beforeUpdate: 数据更新前，如果有数据改变，会触发，注意：此时数据已经被更改了，只是dom上未刷新
     updated:      dom刷新完成
+    
+beforeCreate: 组件实例刚刚被创建,组件属性计算之前,如data属性
+created: 组件实例创建完成,属性已绑定,但是DOM还未完成,$el属性还不存在
+beforeMount:模板编译/挂载之前
+mounted: 模板编译/挂载之后
+beforeUpdate: 组件更新之前
+updated: 组件更新之后
+activated: for keep-alive,组件被激活时调用
+deactivated: for keep-alive,组件被移除时调用
+beforeDestroy: 组件销毁前被调用
+destoryed: 组件销毁后调用
+
+作者：funnycoderstar
+链接：https://juejin.im/post/5ad56d86518825556534ff4b
+来源：掘金
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 	
 	this.$forceUpdate() //强制刷新dom
 	this.$destroy()     //销毁实例

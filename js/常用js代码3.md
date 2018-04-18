@@ -205,11 +205,83 @@ promise.then(onFulfilled, onRejected)
 
 
 接收两个函数作为参数，一个在 fulfilled 的时候被调用，一个在rejected的时候被调用，接收参数就是 future，onFulfilled 对应resolve, onRejected对应 reject
+
+
+export const promiseDemo=()=>{
+new Promise((resolve,reject)=>{
+    resolve(()=>{
+        let a=1;
+        return ++a;
+    }).then((data)=>{
+        console.log(data)//data值为++a的值
+    }).catch(()=>{//错误执行这个
+
+    })
+})
+}
+
+export const promiseDemo=()=>{
+Promise.resolve([1,2,3]).then((data)=>{//直接初始化一个Promise并执行resolve方法
+    console.log(data)//data值为[1,2,3]
+})
+}
 ```
 
+### 获取当前的时间yyyy-MM-dd HH:mm:ss
 
+```
+export default const obtainDate=()=>{
+ let date = new Date();
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day=date.getDate();
+      let hours=date.getHours();
+      let minu=date.getMinutes();
+      let second=date.getSeconds();
+      //判断是否满10
+      let arr=[month,day,hours,minu,second];
+      arr.forEach(item=>{
+        item< 10?"0"+item:item;
+      })
+      return year+'-'+arr[0]+'-'+arr[1]+' '+arr[2]+':'+arr[3]+':'+arr[4]      
+}
+```
 
+### 节流函数
 
+```
+／**
+*  @  { Function} callBack 回调程序    
+*  @  { Number } delay  延时时间
+*  @  { Number }  intervalTime  间隔时间
+*  return  { Function }
+*／
+function thorttleFn(callBack,delay,intervalTime){
+    var timer=null;  // 定时器变量
+    var time=0;  // 时间变量
+    return function(){
+        var context=this;
+        var curTime=new Date();  // 当前执行的时间
+        clearTimeout(timer);  //  清除上次的定时器
+        
+        if(!time){
+            time=curTime;
+        }
+        // 当前执行时间距离上次执行的时间是否大于等于间隔时间
+        if(curTime - time >= intervalTime){
+            time=curTime;
+            callBack.apply(context,arguments)
+        }else{
+            timer=setTimeout(()=>{
+                callBack.apply(context,arguments)
+            },delay)
+        }
+    }
+}
+
+//调用
+window.onresize=thorttleFn(myFunc,50,300)
+```
 
 
 
