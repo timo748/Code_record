@@ -283,13 +283,98 @@ function thorttleFn(callBack,delay,intervalTime){
 window.onresize=thorttleFn(myFunc,50,300)
 ```
 
+### log封装
 
+```
+function log(){
+  var newArguments = []
+  if(arguments.length > 0){
+    for(var i = 0; i < arguments.length; i++){
+      newArguments.push('iphone',arguments[i])
+    }
+  }
+  console.log.apply(console,newArguments)
+}
+```
 
+### 二分法排序
 
+```
+function sortMany(arr){
+  if(arr.length <= 1){
+    return arr
+  }
+  var left = [], right = []
+  var middleIndex = Math.floor(arr.length/2)
+  var middleValue = arr.splice(middleIndex,1)[0]
+  for(var i = 0; i < arr.length; i++){
+    if(arr[i] < middleValue){
+      left.push(arr[i])
+    }else{
+      right.push(arr[i])
+    }
+  }
+  return sortMany(left).concat(middleValue,sortMany(right))
 
+}
+```
 
+### 正则校验API
 
+```
+let checkType=(function(){
+    let rules={
+        email(str){
+            return /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(str);
+        },
+        mobile(str){
+            return /^1[3|4|5|7|8][0-9]{9}$/.test(str);
+        },
+        tel(str){
+            return /^(0\d{2,3}-\d{7,8})(-\d{1,4})?$/.test(str);
+        },
+        number(str){
+            return /^[0-9]$/.test(str);
+        },
+        english(str){
+            return /^[a-zA-Z]+$/.test(str);
+        },
+        text(str){
+            return /^\w+$/.test(str);
+        },
+        chinese(str){
+            return /^[\u4E00-\u9FA5]+$/.test(str);
+        },
+        lower(str){
+            return /^[a-z]+$/.test(str);
+        },
+        upper(str){
+            return /^[A-Z]+$/.test(str);
+        }
+    };
+    //暴露接口
+    return {
+        //校验
+        check(str, type){
+            return rules[type]?rules[type](str):false;
+        },
+        //添加规则
+        addRule(type,fn){
+            rules[type]=fn;
+        }
+    }
+})();
 
+//调用方式
+//使用mobile校验规则
+console.log(checkType.check('188170239','mobile'));
+//添加金额校验规则
+checkType.addRule('money',function (str) {
+    return /^[0-9]+(.[0-9]{2})?$/.test(str)
+});
+//使用金额校验规则
+console.log(checkType.check('18.36','money'));
+```
 
 
 
