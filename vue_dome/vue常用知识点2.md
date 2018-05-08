@@ -20,11 +20,6 @@ activated: for keep-alive,组件被激活时调用
 deactivated: for keep-alive,组件被移除时调用
 beforeDestroy: 组件销毁前被调用
 destoryed: 组件销毁后调用
-
-作者：funnycoderstar
-链接：https://juejin.im/post/5ad56d86518825556534ff4b
-来源：掘金
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 	
 	this.$forceUpdate() //强制刷新dom
 	this.$destroy()     //销毁实例
@@ -192,9 +187,21 @@ ref获取dom元素
     如果ref被设置在组件名上<name ref="zj"></name>,this.$refs.zj将直接获取到该组件的实例对象，可以直接操作该组件的一切
 ```
 
+### 判断上次浏览滚动位置
 
-
-
+```
+  scrollBehavior(to,from,savePosition){//滚动行为
+    //console.log(to) //进入的目标对象
+    //console.log(from) //离开的路由对象
+    //console.log(savePosition)//记录滚动路由坐标
+    if(savePosition){
+      return savePosition //针对鼠标点击浏览器前进后台，如果记录到坐标存在就返回出来之前坐标，
+    }else{
+      return{x:0,y:0} //否则都返回默认的（0,0）
+    }
+    //值得注意的是在谷歌浏览器上我发现即使不设置，好像也一样
+  },
+```
 
 
 
