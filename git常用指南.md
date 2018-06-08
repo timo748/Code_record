@@ -50,3 +50,41 @@ git status**`** **`# → 查看本地工作区、暂存区文件的修改状态`
 
 git add xx**`** **`# → 把xx文件添加到暂存区去`
 
+### 使用分支
+
+```
+$ git checkout -b [branch]                //新建一个分支，并切换到该分支
+$ git branch                              //命令会列出所有分支，当前分支前面会标一个*号。
+$ git add . 
+$ git commit -m "提交分支branch"
+$ git checkout master                     //切换回master分支
+$ git merge [branch]                      //把branch分支合并到master分支
+$ git branch -d branch                     //合并完成后删除branch分支
+```
+
+创建并切换到parcel分支
+
+$ git checkout -b parcel   
+
+切回master分支
+
+git checkout master
+
+### 分支eg
+
+```
+$ git stash                                               //冷冻现在在dev分支上的工作状态 冻结吧！  
+$ git checkout master                                     //这个bug发生在master主分支上,我们切回master分支
+$ git checkout -b issue-101                               //创建代号101的修复bug分支
+修改你的bug
+$ git add readme.txt                                      //提交到暂存区
+$ git commit -m "fix bug 101"                             //注意填写信息，以免日后查证
+$ git checkout master                                     //切换回master分支
+$ git merge --no-ff -m "merged bug fix 101" issue-101     //合并分支，注意不使用fast forward模式
+$ git branch -d issue-101                                 //删除issue-101分支
+$ git checkout dev                                        //bug 改完了，是时候回到dev继续写bug了
+$ git stash list                                          //查看刚刚的冻结现场
+$ git stash pop                                           //git stash pop，恢复的同时把stash内容也删了：
+//一是用git stash apply恢复，但是恢复后，stash内容并不删除，你需要用git stash drop来删除
+```
+
