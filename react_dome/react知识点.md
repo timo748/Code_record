@@ -10,6 +10,46 @@ componentDidUpdate()//组件已经完成重新渲染；
 componentWillUnmout()//卸载组件，比如跳转路由的时候
 componentWillReceiveProps() //已经加载组件props发生改变的时候调用；
 shouldComponentUpdate()//组件判断是否要重新渲染的时候调用；
+
+生命周期操作方法：
+1、componentWillMount
+setState 在 componentWillMount 使用：可以使用
+
+2、componentDidMount
+ajax 请求
+初始化DOM节点的操作
+设置计时器 setTimeout 或者 setInterval (温馨提示，别忘了在 componentWillUnmount 关闭这些计时器)
+setState 在 componentDidMount 使用： 可以使用
+
+3、componentWillReceiveProps(nextProps)
+更新 state 的值(比如重置)
+比较 this.props 和 nextProps
+
+4、componentWillUpdate(nextProps, nextState)
+state 或者 props 更新后 re-render 之前调用。
+
+5、componentDidUpdate(prevProps, prevState)
+操作 DOM
+发起网络请求
+
+6、componentWillUnmount
+清除计时器
+断开网络请求
+解绑dom事件
+
+
+
+生命周期	              	是否可以调用this.setState	      初始化是否执行
+componentWillMount	        可以						   是
+componentDidMount	     	可以						   是
+componentWillReceiveProps	可以						    否
+shouldComponentUpdate		不可以	 					   否
+componentWillUpdate			不可以						   否
+componentDidUpdate			可以	 					    否
+componentWillUnmount		不可以					        否
+
+注：①componentWillMount 和 componentWillReceiveProps 调用 setState 不会重复渲染(re-render)
+②componentDidUpdate，不能直接 this.setState, 不然会溢出栈。需要对 prevProps 与 this.props 和 prevState 和 this.state 做一个判断再执行 this.setState。
 ```
 
 ### 查找dom节点操作（ref）
