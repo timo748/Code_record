@@ -109,6 +109,33 @@ var getInstance = (function() {
 var a = getInstance("aa");
 var b = getInstance("bb");
 
+
+var person = (function(){
+    //定义一个变量，用来保存实例
+    var instance = null;
+    var name = 'pan';
+    var age = 18;
+
+    //初始化方法
+    function init() {
+        return{
+            getName: function() { return name;},
+            getAge: function() { return age;}
+        }
+    }
+    return {
+        getInstance: function() {
+                if(!instance){
+                    instance = init()
+                }
+                return instance
+            }
+    }
+})();
+
+//只在使用时获取实例
+var p1 = person.getInstance();
+
 3、沙箱模式
 将一些函数放到自执行函数里面,但要用闭包暴露接口,用变量接收暴露的接口,再调用里面的值,否则无法使用里面的值
 let sandboxModel=(function(){

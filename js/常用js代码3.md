@@ -506,7 +506,19 @@ document.addEventListener('touchend', event => {
 });
 ```
 
+### 微信ios页面回退不刷新
 
+```
+var isPageHide = false;
+window.addEventListener('pageshow', function () {
+      if (isPageHide) {
+          window.location.reload();
+    }
+});
+window.addEventListener('pagehide', function () {
+      isPageHide = true;
+});
+```
 
 
 
