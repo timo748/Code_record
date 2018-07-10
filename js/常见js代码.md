@@ -59,3 +59,12 @@ function fillter(arrth) {
 console.log(fillter(arr));
 ```
 
+### 本地存储封装
+
+```
+export const get = (key, storage = localStorage) => JSON.parse(storage.getItem(key))；
+export const set = (key, val, storage = localStorage) => storage.setItem(key, JSON.stringify(val))
+export const remove = (key, storage = localStorage) => storage.removeItem(key)
+export const clear = (storage = localStorage) => storage.clear()
+```
+
