@@ -417,11 +417,30 @@ html {
 }
 ```
 
+### 清除数字input的箭头
 
+```
+ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{
+      -webkit-appearance: none !important;
+      margin: 0; 
+  }
+```
 
+### 清除输入框黄色
 
+```
+ box-shadow:0 0  0 1000px  #fff inset ;
+ -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+ 
+ autocomplete="off"
+```
 
+### a标签样式闪动
 
+```
+div,input(selector) {-webkit-tap-highlight-color: rgba(0,0,0,0);}
+
+```
 
 
 

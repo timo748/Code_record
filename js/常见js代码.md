@@ -68,3 +68,32 @@ export const remove = (key, storage = localStorage) => storage.removeItem(key)
 export const clear = (storage = localStorage) => storage.clear()
 ```
 
+### sleep封装
+
+```
+promise：
+function sleep(ms){
+  var temple=new Promise(
+  (resolve)=>{
+  console.log(111);setTimeout(resolve,ms)
+  });
+  return temple
+}
+sleep(500).then(function(){
+   //console.log(222)
+})
+//先输出了111，延迟500ms后输出222
+
+async：
+function sleep(ms){
+  return new Promise((resolve)=>setTimeout(resolve,ms));
+}
+async function test(){
+  var temple=await sleep(1000);
+  console.log(1111)
+  return temple
+}
+test();
+//延迟1000ms输出了1111
+```
+
