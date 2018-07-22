@@ -97,3 +97,148 @@ test();
 //延迟1000ms输出了1111
 ```
 
+### 动态加载js文件
+
+```
+module.exports.loadScript = (url, callback) => {
+  let script  = document.createElement('script');
+  script.type = 'text/javascript';
+
+  if (callback) {
+    if (script.readyState) {
+      script.onreadystatechange = function () {
+        if (script.readyState === 'loaded' || script.readyState === 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else {
+      script.onload = function () {
+        callback();
+      };
+    }
+  }
+
+  script.src = url;
+
+  document.body.appendChild(script);
+};
+```
+
+### 跳转到App打开页面，如果没有则跳转app下载页面
+
+```
+module.exports.goApp = href => {
+  let src = `yixinli://${href}`;
+  let ifr;
+
+  let UA = window.navigator.userAgent.toUpperCase();
+
+  // 判断微信环境
+  if (/MICROMESSENGER/i.test(UA)) {
+    // if (window.toast) {
+    //   window.toast('微信用户需要点击右上角菜单，使用“浏览器”打开~', 3000);
+    // } else {
+    //   alert('微信用户需要点击右上角菜单，使用“浏览器”打开~')
+    // }
+    // return;
+    window.location.href = '//a.app.qq.com/o/simple.jsp?pkgname=com.xinli.yixinli';
+  }
+
+  if (/(IPHONE|IPAD|IPOD|IOS)/i.test(UA)) {
+    window.location.href = src;
+
+  } else {
+
+    ifr               = document.createElement('iframe'); //open_question_detail?question_id=123
+    ifr.src           = src;
+    ifr.style.display = 'none';
+
+    document.body.appendChild(ifr);
+  }
+
+  window.setTimeout(function () {
+    if (ifr) document.body.removeChild(ifr);
+    window.location.href = '//a.app.qq.com/o/simple.jsp?pkgname=com.xinli.yixinli';
+  }, 2000);
+};
+```
+
+### 截取剩余时间
+
+```
+/**
+ * 获取剩余时间
+ * @param  {Number} endTime    截止时间
+ * @param  {Number} serverTime 当前时间
+ * @return {Object}            剩余时间对象
+ */
+
+module.exports.getRemainTime = (endTime, serverTime) => {
+  let t =
+        (typeof endTime === 'number' ? endTime : Date.parse(endTime)) -
+        (typeof serverTime === 'number' ? serverTime : Date.parse(serverTime));
+
+  let seconds = Math.floor((t / 1000) % 60);
+  let minutes = Math.floor((t / 1000 / 60) % 60);
+  let hours   = Math.floor((t / (1000 * 60 * 60)) % 24);
+  let days    = Math.floor(t / (1000 * 60 * 60 * 24));
+
+  return {
+    'total': t,
+    'days': days,
+    'hours': hours,
+    'minutes': minutes,
+    'seconds': seconds
+  }
+};
+```
+
+### 节流函数
+
+```
+* 函数节流方法
+* @param Function fn 延时调用函数
+* @param Number delay 延迟多长时间
+* @param Number atleast 至少多长时间触发一次
+* @return Function 延迟执行的方法
+*/
+module.exports.throttle = function(fn, delay, atleast) {
+  var timer = null;
+  var previous = null;
+  return function () {
+    var now = +new Date();
+    if ( !previous ) previous = now;
+    if ( now - previous > atleast ) {
+      fn();
+      // 重置上一次开始时间为本次结束时间
+      previous = now;
+    } else {
+      clearTimeout(timer);
+      timer = setTimeout(function() {
+        fn();
+      }, delay);
+    }
+  }
+};
+调用：throttle(toole, 2000, 1000)();
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
