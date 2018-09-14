@@ -88,5 +88,6 @@ sqlalchemy连接：dialect+driver://username:password@host:port/database?charset
 本地模拟请求：scrapy shell "请求地址"  
 eg:print(response.xpath("\\title"));
 放置本地资源：view(response)
+配置文件uft8：FEED_EXPORT_ENCODING = 'utf-8'
 ```
 
