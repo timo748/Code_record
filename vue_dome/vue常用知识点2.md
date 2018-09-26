@@ -59,6 +59,37 @@ destoryed: 组件销毁后调用
     
 ```
 
+vue文件结构：
+
+```
+事件：methods:{  };
+
+过滤器：filters:{  };
+
+自定义指令：directive:{  };
+
+模版：components:{  };
+
+计算：conputed：{  };
+
+观察者：watch:{  };
+
+钩子函数：
+
+    created:function(){
+      //创建  
+    },
+    mounted:function(){ 
+      //挂载
+    },
+    updated:function(){
+      //更新  
+    },
+    destoryed:function(){
+     // 销毁 
+    }
+```
+
 
 
 ### vue权限判断（路由拦截）
@@ -210,14 +241,81 @@ ref获取dom元素
   },
 ```
 
+vue中修改title
 
+```
+// 修改title的值
+router.beforeEach((to, from, next) => {
+ if (to.query.text) {
+   // 一些动态的标题，比如：
+   // ‘回复XXX’，‘XXX人点过赞’，付费与免费跳转的路由不同却要保证标题一致
+   document.querySelector('title').innerText = to.query.text
+ } else {
+   document.querySelector('title').innerText = to.name
+ }
+ next()
+})
 
+// 滚动到页面顶部
+router.afterEach((to, from) => {
+ if (to.name === '首页' || '推荐页' || '某某模块') window.scrollTo(0, 0)
+})
+```
 
+vue操作data里面数据
 
+```
+$set方法
+this.$set(this.arr, index, 需要变化的值);
+```
 
+导出页面PDF格式
 
+```
+import html2Canvas from 'html2canvas'
+import JsPDF from 'jspdf'
+export default{
+  install (Vue, options) {
+    Vue.prototype.getPdf = function () {
+      var title = this.htmlTitle
+      html2Canvas(document.querySelector('#pdfDom'), {
+        allowTaint: true
+      }).then(function (canvas) {
+        let contentWidth = canvas.width
+        let contentHeight = canvas.height
+        let pageHeight = contentWidth / 592.28 * 841.89
+        let leftHeight = contentHeight
+        let position = 0
+        let imgWidth = 595.28
+        let imgHeight = 592.28 / contentWidth * contentHeight
+        let pageData = canvas.toDataURL('image/jpeg', 1.0)
+        let PDF = new JsPDF('', 'pt', 'a4')
+        if (leftHeight < pageHeight) {
+          PDF.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight)
+        } else {
+          while (leftHeight > 0) {
+            PDF.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+            leftHeight -= pageHeight
+            position -= 841.89
+            if (leftHeight > 0) {
+              PDF.addPage()
+            }
+          }
+        }
+        PDF.save(title + '.pdf')
+      }
+      )
+    }
+  }
+}
+```
 
+vue DOM操作：
 
-
+```
+<h2 ref='foo'>我是ref的值</h2>
+console.log(this.$refs.foo.innerHTML')
+this.$refs.foo.innerHTML='我是新值
+```
 
 
