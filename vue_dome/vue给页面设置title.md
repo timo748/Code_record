@@ -2,6 +2,9 @@
 
 ```
 npm install vue-wechat-title --save
+
+
+插件：vue-meta插件
 ```
 
 在main.js中引入插件

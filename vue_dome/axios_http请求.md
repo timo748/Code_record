@@ -173,3 +173,79 @@ function upload(url, data) {
 }
 ```
 
+axios
+
+```
+import axios from 'axios';
+import qs from 'qs';
+import store from '../store';
+
+// 全局默认配置
+// 设置 POST 请求头
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+// 配置 CORS 跨域
+axios.defaults.withCredentials = true;
+axios.defaults.crossDomain = true;
+
+// 请求发起前拦截器
+axios.interceptors.request.use((config) => {
+  // 全局 loading 状态，触发 loading 效果
+  store.dispatch('updateLoadingStatus', {
+    isLoading: true
+  });
+  
+  // POST 请求参数处理成 axios post 方法所需的格式
+  if (config.method === 'post') {
+    config.data = qs.stringify(config.data);
+  }
+  
+  // 这句不能省，不然后面的请求就无法成功发起，因为读不到配置参数
+  return config;
+}, () => {
+  // 异常处理
+  store.dispatch('updateLoadingStatus', {
+    isLoading: false
+  });
+});
+
+// 响应拦截
+axios.interceptors.response.use((response) => {
+  // 关闭 loading 效果
+  store.dispatch('updateLoadingStatus', {
+    isLoading: false
+  });
+
+  // 全局登录过滤，如果没有登录，直接跳转到登录 URL
+  if (response.data.code === 300) {
+    // 未登录
+    window.location.href = getLoginUrl();
+    return false;
+  }
+
+  // 这里返回的 response.data 是被 axios 包装过的一成，所以在这里抽取出来
+  return response.data;
+}, (error) => {
+  store.dispatch('updateLoadingStatus', {
+    isLoading: false
+  });
+  return Promise.reject(error);
+});
+
+// 导出
+export default axios;
+
+
+使用：
+import axios from './common';
+
+const baseURL = '/api/profile';
+const USER_BASE_INFO = `${baseURL}/getUserBaseInfo.json`;
+const UPDATE_USER_INFO = `${baseURL}/saveUserInfo.json`;
+
+// 更新用户实名认证信息
+const updateUserInfo = userinfo => axios.post(UPDATE_USER_INFO, userinfo);
+
+// 获取用户基础信息
+const getUserBaseInfo = () => axios.get(USER_BASE_INFO);
+```
+
