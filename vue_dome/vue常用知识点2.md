@@ -318,4 +318,23 @@ console.log(this.$refs.foo.innerHTML')
 this.$refs.foo.innerHTML='我是新值
 ```
 
+vue中使用全局变量：
+
+```
+//省略无关代码
+new Vue({
+  router,
+  store,
+  data() {
+    return {
+      website: "https://www.qdtalk.com",
+    }
+  },
+  render: h => h(App)
+}).$mount('#app')
+
+使用：
+this.$root.website="陌上寒个人博客"
+console.log(this.$root.website)
+```
 
