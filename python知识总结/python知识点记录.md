@@ -11,6 +11,86 @@
 
 ```
 其他机器访问地址设置：app.run(host='0.0.0.0',port=9000)
+1、配置数据库
+	a导入sqlalchemy扩展
+	b创建db对象，并配置参数
+	c终端数据库创建
+2添加书和作者模型
+	a模型继承db.model
+	b__tablename__：表名
+	cdb.colum：字段
+	db.relationship:关系引用
+3、添加数据模拟
+4、使用模板显示数据库查询的数据
+	a查询所得到的信息
+	b按照模板格式，for循环即可
+
+查询数据：
+book = Book.query.get(id)
+
+删除数据：
+db.session.delete(id)
+db.session.commit()
+
+最常用的SQLAlchemy列类型
+
+类型名	Python类型	说 明
+Integer	int	普通整数,一般是 32 位
+SmallInteger	int	取值范围小的整数,一般是 16 位
+BigInteger	int 或 long	不限制精度的整数
+Float	float	浮点数
+Numeric	decimal.Decimal	定点数
+String	str	变长字符串
+Text	str	变长字符串,对较长或不限长度的字符串做了优化
+Unicode	unicode	变长 Unicode 字符串
+UnicodeText	unicode	变长 Unicode 字符串,对较长或不限长度的字符串做了优化
+Boolean	bool	布尔值
+Date	datetime.date	日期
+Time	datetime.time	时间
+DateTime	datetime.datetime	日期和时间
+Interval	datetime.timedelta	时间间隔
+Enum	str	一组字符串
+PickleType	任何 Python 对象	自动使用 Pickle 序列化
+LargeBinary	str	二进制文件
+
+
+最常使用的SQLAlchemy列选项
+选项名	说 明
+primary_key	如果设为 True ,这列就是表的主键
+unique	如果设为 True ,这列不允许出现重复的值
+index	如果设为 True ,为这列创建索引,提升查询效率
+nullable	如果设为 True ,这列允许使用空值;如果设为 False ,这列不允许使用空值
+default	为这列定义默认值
+
+
+常用的SQLAlchemy关系选项
+选项名	说 明
+backref	在关系的另一个模型中添加反向引用
+primaryjoin	明确指定两个模型之间使用的联结条件。只在模棱两可的关系中需要指定
+lazy	指定如何加载相关记录。可选值有 select (首次访问时按需加载)、 immediate (源对象加载后就加载)、 joined (加载记录,但使用联结)、 subquery (立即加载,但使用子查询),noload (永不加载)和 dynamic (不加载记录,但提供加载记录的查询)
+uselist	如果设为 Fales ,不使用列表,而使用标量值
+order_by	指定关系中记录的排序方式
+secondary	指定 多对多 关系中关系表的名字
+
+常用过滤器
+过滤器	说 明
+filter()	把过滤器添加到原查询上,返回一个新查询
+filter_by()	把等值过滤器添加到原查询上,返回一个新查询
+limit()	使用指定的值限制原查询返回的结果数量,返回一个新查询
+offset()	偏移原查询返回的结果,返回一个新查询
+order_by()	根据指定条件对原查询结果进行排序,返回一个新查询
+group_by()	根据指定条件对原查询结果进行分组,返回一个新查询
+
+
+最常使用的SQLAlchemy查询执行函数
+方 法	说 明
+all()	以列表形式返回查询的所有结果
+first()	返回查询的第一个结果,如果没有结果,则返回 None
+first_or_404()	返回查询的第一个结果,如果没有结果,则终止请求,返回 404 错误响应
+get()	返回指定主键对应的行,如果没有对应的行,则返回 None
+get_or_404()	返回指定主键对应的行,如果没找到指定的主键,则终止请求,返回 404 错误响应
+count()	返回查询结果的数量
+paginate()	返回一个 Paginate 对象,它包含指定范围内的结果
 
 http方法：
 @app.route('/login/',methods=['GET','POST'])
@@ -356,7 +436,35 @@ __getstate__(self)	pickle.dump(pkl_file, self)	序列化
 __setstate__(self)	data = pickle.load(pkl_file)	序列化
 ```
 
+### 切片说明
 
+```
+切片的书写形式：[i : i+n : m] ；其中，i 是切片的起始索引值，为列表首位时可省略；i+n 是切片的结束位置，为列表末位时可省略；m 可以不提供，默认值是1，不允许为0 ，当m为负数时，列表翻转。注意：这些值都可以大于列表长度，不会报越界
+
+li = [1, 4, 5, 6, 7, 9, 11, 14, 16]
+
+# 以下写法都可以表示整个列表，其中 X >= len(li)
+li[0:X] == li[0:] == li[:X] == li[:]
+== li[::] == li[-X:X] == li[-X:]
+
+li[1:5] == [4,5,6,7] # 从1起，取5-1位元素
+li[1:5:2] == [4,6] # 从1起，取5-1位元素，按2间隔过滤
+li[-1:] == [16] # 取倒数第一个元素
+li[-4:-2] == [9, 11] # 从倒数第四起，取-2-(-4)=2位元素
+li[:-2] == li[-len(li):-2]
+== [1,4,5,6,7,9,11] # 从头开始，取-2-(-len(li))=7位元素
+
+# 步长为负数时，列表先翻转，再截取
+li[::-1] == [16,14,11,9,7,6,5,4,1] # 翻转整个列表
+li[::-2] == [16,11,7,5,1] # 翻转整个列表，再按2间隔过滤
+li[:-5:-1] == [16,14,11,9] # 翻转整个列表，取-5-(-len(li))=4位元素
+li[:-5:-3] == [16,9] # 翻转整个列表，取-5-(-len(li))=4位元素，再按3间隔过滤
+
+# 切片的步长不可以为0
+li[::0]  # 报错（ValueError: slice step cannot be zero）
+
+
+```
 
 
 
