@@ -83,6 +83,10 @@ select * from + 表名1,表名2...;
 查询语句：
 select * from + (select * from + 表名) + [as] + 别名;
 
+查询排序：
+SELECT id, name, gender, score FROM students ORDER BY score;
+查询反序:DESC
+SELECT id, name, gender, score FROM students ORDER BY score DESC;
 
 交叉连接查询：
 左表 cross join 右边;
@@ -109,6 +113,11 @@ select * from student natural left join class;
 联合查询：
 select 语句1 + union + [union选项] + select 语句2 + ...; 
 
+查询字段记录总数：
+SELECT COUNT(*) FROM students;
+
+
+
 ```
 
 ### 更新数据
@@ -125,6 +134,7 @@ update test set age = 20 where name = 'guo';
 delete from + 表名 + [where 条件];
 delete from test where grade = '3.1';
 delete + from + 表名 + [where 条件] + [limit 删除数量];	
+DELETE FROM students WHERE id>=5 AND id<=7;
 
 ```
 
@@ -149,9 +159,20 @@ select */字段列表 + into outfile + '文件存储路径' + from 数据源;
 select * into outfile 'D:/CoderLife/testMySQL/class.txt' from class;
 ```
 
+### 插入替换已有数据
 
+```
+REPLACE INTO students (id, class_id, name, gender, score) VALUES (1, 1, '小明', 'F', 99);
+```
 
+### 数据库导入导出命令
 
+```
+导出：
+mysqldump -u root -p 库名 >导出的文件.sql
+导入：
+mysql -u root -p 库名
+```
 
 
 
