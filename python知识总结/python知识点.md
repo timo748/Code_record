@@ -7,12 +7,88 @@
 镜像安装：pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple django
 ```
 
+
+
 ### lambda函数
 
 ```
 lambda 函数是一个可以接收任意多个参数(包括可选参数)并且返回单个表达式值的函数。 lambda 函数不能包含命令，它们所包含的表达式不能超过一个。不要试图向lambda 函数中塞入太多的东西；如果你需要更复杂的东西，应该定义一个普通函数，然后想让它多长就多长。
 f = lambda x,y:x+y # 求两个函数的和。 x,y是参数，x+y是函数返回值
 ```
+
+
+
+### map
+
+```
+作用是将一个序列通过分 function 映射到另一个序列。即对可迭代对象中的每一个元素应用function方法，将结果作为 list 返回。如下所示：
+
+>>> def add100(x):
+...     return x+100
+...
+>>> hh = [11,22,33]
+>>> map(add100,hh)
+[111, 122, 133]
+```
+
+
+
+### reduce
+
+```
+reduce(function, sequence, startValue)
+
+作用是将一个列表归纳为一个输出。具体是将一个可迭代的对象应用到一个带有两个参数的方法上，遍历这个可迭代对象，将其中的元素依次作为 function 的参数。如果给定 startValue 值，则第一次传入的是 startValue 和可迭代对象的第一个元素；如果没有给定，则传入可迭代对象的前两个参数。
+
+>>> def foo(x, y):
+...     return x + y
+...
+>>> l = range(1, 10)
+>>> reduce(foo, l)
+45
+>>> reduce(foo, l, 10)
+55
+```
+
+
+
+### filter
+
+```
+filter(function, sequence)
+
+作用是按照所定义的函数过滤掉列表中的一些元素。如下所示：
+
+>>> def foo(x):
+...     return x % 2 != 0
+...
+>>> def hoo(x):
+...     if x > 5 and x < 10:
+...         return x
+...     
+...
+>>> l = range(1, 10)
+>>> filter(foo, l)
+[1, 3, 5, 7, 9]
+>>> filter(hoo, l)
+[6, 7, 8, 9]
+```
+
+
+
+### 列表推导式
+
+```
+基本形式：
+
+[x for item in sequence <if (conditions)>]
+
+列表推导式又称列表解析，是一个非常有用, 简单, 而且灵活的工具, 可以用来动态地创建列表。例如获得1~10中所有奇数平方的列表：
+
+[x ** 2 for x in range(1, 10) if x % 2 == 1 ]
+```
+
+
 
 ### python实现单例模式
 
@@ -47,6 +123,8 @@ print one is two
 #True
 ```
 
+
+
 ### 如何用Python来进行查询和替换一个文本字符串
 
 ```
@@ -59,6 +137,8 @@ string是需要被替换的文本
 count是一个可选参数，指最大被替换的数量
 ```
 
+
+
 ### python中is和==区别？
 
 ```
@@ -67,6 +147,8 @@ count是一个可选参数，指最大被替换的数量
 一般情况下，如果 a is b 返回True的话，即 a 和 b 指向同一块内存地址的话，a == b 也返回True，即 a 和 b 的值也相等
 is 是检查两个对象是否指向同一块内存空间，而 == 是检查他们的值是否相等。可以看出，is 是比 == 更严格的检查，is 返回True表明这两个对象指向同一块内存，值也一定相同。
 ```
+
+
 
 ### python小技巧
 
@@ -148,6 +230,8 @@ S.translate(table[,deletechars])        #返回S的副本，所有字符都使�
 
 ```
 
+
+
 ###  --new--和--init--区别
 
 ```
@@ -175,59 +259,7 @@ __init__有一个参数self，就是这个__new__返回的实例，__init__在__
 最后，客户端再发送一个ACK。当服务端受到这个ACK的时候，就完成了三路握手，并进入了连接创建状态。此时包序号被设定为收到的确认号 A+1，而响应则为 B+1。
 ```
 
-### 标准库os常用方法
 
-```
-
-os.remove()删除文件
-os.rename()重命名文件
-os.walk()生成目录树下的所有文件名
-os.chdir()改变目录
-os.mkdir/makedirs创建目录/多层目录
-os.rmdir/removedirs删除目录/多层目录
-os.listdir()列出指定目录的文件
-os.getcwd()取得当前工作目录
-os.chmod()改变目录权限
-os.path.basename()去掉目录路径，返回文件名
-os.path.dirname()去掉文件名，返回目录路径
-os.path.join()将分离的各部分组合成一个路径名
-os.path.split()返回（dirname(),basename())元组
-os.path.splitext()(返回filename,extension)元组
-os.path.getatime\ctime\mtime分别返回最近访问、创建、修改时间
-os.path.getsize()返回文件大小
-os.path.exists()是否存在
-os.path.isabs()是否为绝对路径
-os.path.isdir()是否为目录
-os.path.isfile()是否为文件
-```
-
-
-
-### 标准库sys常用方法
-
-```
-sys.argv           命令行参数List，第一个元素是程序本身路径  
-sys.modules.keys() 返回所有已经导入的模块列表  
-sys.exc_info()     获取当前正在处理的异常类,exc_type、exc_value、exc_traceback当前处理的异常详细信息  
-sys.exit(n)        退出程序，正常退出时exit(0)  
-sys.hexversion     获取Python解释程序的版本值，16进制格式如：0x020403F0  
-sys.version        获取Python解释程序的版本信息  
-sys.maxint         最大的Int值  
-sys.maxunicode     最大的Unicode值  
-sys.modules        返回系统导入的模块字段，key是模块名，value是模块  
-sys.path           返回模块的搜索路径，初始化时使用PYTHONPATH环境变量的值  
-sys.platform       返回操作系统平台名称  
-sys.stdout         标准输出 
-sys.stdin          标准输入 
-sys.stderr         错误输出 
-sys.exc_clear()    用来清除当前线程所出现的当前的或最近的错误信息 
-sys.exec_prefix    返回平台独立的python文件安装的位置 
-sys.byteorder      本地字节规则的指示器，big-endian平台的值是'big',little-endian平台的值是'little' 
-sys.copyright      记录python版权相关的东西 
-sys.api_version    解释器的C的API版本 
-sys.version_info 
---------------------- 
-```
 
 ### 计算一个文件中大写字母的数量
 
