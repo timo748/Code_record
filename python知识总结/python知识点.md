@@ -11,10 +11,13 @@
 
 ### 装饰器闭包讲解
 
-[https://mp.weixin.qq.com/s/5gFl2BQSzTNbGR4fZQn1Xg]("https://mp.weixin.qq.com/s/5gFl2BQSzTNbGR4fZQn1Xg")
-[https://mp.weixin.qq.com/s/HVZymCKnU5bJrQ3BRiH8rw]("https://mp.weixin.qq.com/s/HVZymCKnU5bJrQ3BRiH8rw")
-[https://mp.weixin.qq.com/s/dziy9MUMN_nGbPyQvuZJ9Q]("https://mp.weixin.qq.com/s/dziy9MUMN_nGbPyQvuZJ9Q")
-[https://mp.weixin.qq.com/s/ff2DEmIhBZ0huYs9mBTbhA]("https://mp.weixin.qq.com/s/ff2DEmIhBZ0huYs9mBTbhA")
+```
+Python高级编程——装饰器Decorator超详细讲解：
+https://mp.weixin.qq.com/s/5gFl2BQSzTNbGR4fZQn1Xg
+https://mp.weixin.qq.com/s/HVZymCKnU5bJrQ3BRiH8rw
+https://mp.weixin.qq.com/s/dziy9MUMN_nGbPyQvuZJ9Q
+https://mp.weixin.qq.com/s/ff2DEmIhBZ0huYs9mBTbhA
+```
 
 
 
