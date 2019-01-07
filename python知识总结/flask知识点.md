@@ -44,6 +44,7 @@ if __name__ == '__main__':
     db.session.commit()
 
     app.run(debug=True)
+   
 ```
 
 
@@ -51,6 +52,21 @@ if __name__ == '__main__':
 ### flask常用库说明：
 
 ```
+flask-sqlmeche操作数据库：
+创建表：db.create_all()
+删除表：db.drop_all()
+添加数据：u = user(username="st",email="123",password="123")
+db.session.add(u)
+查询数据：user.query.filter_by(username="st").first()
+filter模糊查询：user.query.filter(user.username.endwith("t")).all()
+逻辑非查询：user.query.filter(user.username!="st").first()
+逻辑或查询：user.query.filter(user.username=="st").first()
+返回查询第一个对象：user.qurey.first()
+查询所有对象：user.query.all()
+删除数据：db.session.delete(user)
+更新数据：user = user.query.first()
+user.username = "st2"
+
 flask-script
 为Flask提供强大的命令行操作，与Django shell类似。
 
