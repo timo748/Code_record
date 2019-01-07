@@ -43,6 +43,7 @@ _：表示匹配单个字符
 
 ```
 drop database + 数据库名称;
+
 ```
 
 ### 新增表中字段
@@ -81,11 +82,17 @@ insert into + 表名 + values(值列表)[,(值列表)];
 insert into test values('charies',18,'3.1');
 ```
 
-给部分字段插入数据
+### 给部分字段插入数据
 
 ```
 insert into + 表名(字段列表) + values(值列表)[,(值列表)];
 insert into test(age,name) values(18,'guo');
+```
+
+### 清除重复字段
+
+```
+select  distinct  name  from  student
 ```
 
 ### 查询数据

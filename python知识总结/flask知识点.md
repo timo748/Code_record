@@ -1,3 +1,53 @@
+flask基本格式
+
+```
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+
+# 配置数据库的地址
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost:3306/news?charset=utf8mb4'
+# 跟踪数据库的修改，不建议开启
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+
+class news(db.Model):
+    # 定义表名
+    __tablename__ = 'news'
+    # 定义字段
+    # db.Column 表示是一个字段
+    # id = db.Column(db.Integer, primary_key=True)
+    # name = db.Column(db.String(16), unique=True)
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    content = db.Column(db.String(2000), nullable=False)
+    types = db.Column(db.String(10), nullable=False)
+    image = db.Column(db.String(300),)
+    autor = db.Column(db.String(20),)
+    view_count = db.Column(db.Integer)
+    created = db.Column(db.DateTime)
+    is_valid = db.Column(db.Boolean)
+
+db.drop_all()
+db.create_all()
+
+@app.route('/')
+def index():
+    return "hahah"
+
+if __name__ == '__main__':
+    # 增加数据
+    role = news(id=1, title="新闻1", content="内容1", types="123")
+    db.session.add(role)
+    db.session.commit()
+
+    app.run(debug=True)
+```
+
+
+
 flask常用库说明：
 
 ```

@@ -21,6 +21,36 @@ https://mp.weixin.qq.com/s/ff2DEmIhBZ0huYs9mBTbhA
 
 
 
+### python属性描述符
+
+```
+Python高级编程——描述符Descriptor超详细讲解：
+https://mp.weixin.qq.com/s/ONlKkfU72nh5UP0JtsjC9g
+https://mp.weixin.qq.com/s/bIO_EXN9UGYTDVoHPKV_6w 	
+https://mp.weixin.qq.com/s/iVemdz5QMyrAYaFlQX31Ig
+https://mp.weixin.qq.com/s/5sJGzf89pjwTMPeEthx7rg
+```
+
+
+
+### 生成器迭代器
+
+```
+https://mp.weixin.qq.com/s/U3UsIOFZ5iQRJlPSSNh0mQ
+```
+
+
+
+### functools标准库说明
+
+```
+https://mp.weixin.qq.com/s/v7Ynnzgz1FLlqz_d3ddPvA
+https://mp.weixin.qq.com/s/z3WnAY2cRPsmnpCxNxZaLQ
+https://mp.weixin.qq.com/s/lEKeuIH3f1qcskpSjAJzow
+```
+
+
+
 ### lambda函数
 
 ```
