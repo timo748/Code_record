@@ -152,9 +152,15 @@ return render_template("index.html",**data);
 查询数据：
 book = Book.query.get(id)
 
-删除数据：
+#删除数据：
 db.session.delete(id)
 db.session.commit()
+
+#精确查询:
+User.query.filter_by(name='wang').all()
+
+#查询第一个对象：
+User.query.first()
 
 最常用的SQLAlchemy列类型
 
@@ -176,6 +182,7 @@ Interval	datetime.timedelta	时间间隔
 Enum	str	一组字符串
 PickleType	任何 Python 对象	自动使用 Pickle 序列化
 LargeBinary	str	二进制文件
+
 
 
 最常使用的SQLAlchemy列选项
@@ -258,5 +265,97 @@ SECRET_KEY='...'
 
 
  
+```
+
+### request常用接口
+
+```
+request.method   请求方式
+request.path    路由中的路径
+request.args   get请求参数   get请求参数的包装，args是一个ImmutableMultiDict对象，类字典结构对象   数据存储也是key-value   外层是大列表，列表中的元素是元组，元组中左边是key，右边是value
+request.form   post请求参数  存储结构个args一致  默认是接收post参数   还可以接收PUT，PATCH参数
+request.url    完整请求地址
+request.base_url    去掉GET参数的URL
+request.remote_addr    请求的客户端地址
+request.file    上传的文件
+request.headers    请求头
+request.cookie    请求中的cookie
+request.get_json 如果前端传的json，可以调此接口，自动把前端传的json转化为字典
+#使用要求前端传递的content-type:application/json
+mmutableMultiDict类型
+ImmutableMultiDict类似字典的数据结构，与字典的区别，可以存在相同的键，args、form、files都是ImmutableMultiDict的对象
+ImmutableMultiDict数据获取方式
+dict['uname']       
+dict.get('uname')   # 推荐(在没有数据为空)
+dict.getlist('uname')   # 获取指定key对应的所有值
+```
+
+
+
+### falsk rest  API  实践例子
+
+```
+from flask import Flask
+from flask_restful import reqparse, abort, Api, Resource
+
+app = Flask(__name__)
+api = Api(app)
+
+TODOS = {
+    'todo1': {'task': 'build an API'},
+    'todo2': {'task': '?????'},
+    'todo3': {'task': 'profit!'},
+}
+
+
+def abort_if_todo_doesnt_exist(todo_id):
+    if todo_id not in TODOS:
+        abort(404, message="Todo {} doesn't exist".format(todo_id))
+
+parser = reqparse.RequestParser()
+parser.add_argument('task')
+
+
+# Todo
+# shows a single todo item and lets you delete a todo item
+class Todo(Resource):
+    def get(self, todo_id):
+        abort_if_todo_doesnt_exist(todo_id)
+        return TODOS[todo_id]
+
+    def delete(self, todo_id):
+        abort_if_todo_doesnt_exist(todo_id)
+        del TODOS[todo_id]
+        return '', 204
+
+    def put(self, todo_id):
+        args = parser.parse_args()
+        task = {'task': args['task']}
+        TODOS[todo_id] = task
+        return task, 201
+
+
+# TodoList
+# shows a list of all todos, and lets you POST to add new tasks
+class TodoList(Resource):
+    def get(self):
+        return TODOS
+
+    def post(self):
+        args = parser.parse_args()
+        todo_id = int(max(TODOS.keys()).lstrip('todo')) + 1
+        todo_id = 'todo%i' % todo_id
+        TODOS[todo_id] = {'task': args['task']}
+        return TODOS[todo_id], 201
+
+##
+## Actually setup the Api resource routing here
+##
+api.add_resource(TodoList, '/todos')
+api.add_resource(Todo, '/todos/<todo_id>')
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
 ```
 
