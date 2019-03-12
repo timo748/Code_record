@@ -1,3 +1,14 @@
+### flask-sqlchemy链接数据库地址
+
+```
+Postgres：postgresql://scott:tiger@localhost/mydatabase
+MySQL：mysql://scott:tiger@localhost/mydatabase
+Oracle：oracle://scott:tiger@127.0.0.1:1521/sidname
+SQLite：sqlite:////absolute/path/to/foo.db
+```
+
+
+
 ### flask-sqlchemy
 
 ```

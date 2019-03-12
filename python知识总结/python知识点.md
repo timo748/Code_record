@@ -227,6 +227,10 @@ a,b = b,a
 [6]
 >>> [i for i in list1 if i in list2]
 
+#倒叙函数
+def reverse(text):
+    return text[::-1]
+
 #用切片来删除序列的某一段
 >>> a = [1, 2, 3, 4, 5, 6, 7]
 >>> a[1:4] = []
@@ -422,15 +426,71 @@ li[::0]  # 报错（ValueError: slice step cannot be zero）
 
 ```
 
+### 常用时间处理方法
+
+```
+常用时间处理方法
+今天 today = datetime.date.today()
+昨天 yesterday = today - datetime.timedelta(days=1)
+上个月 last_month = today.month - 1 if today.month - 1 else 12
+当前时间戳 time_stamp = time.time()
+时间戳转datetime datetime.datetime.fromtimestamp(time_stamp)
+datetime转时间戳 int(time.mktime(today.timetuple()))
+datetime转字符串 today_str = today.strftime("%Y-%m-%d")
+字符串转datetime today = datetime.datetime.strptime(today_str, "%Y-%m-%d")
+补时差 today + datetime.timedelta(hours=8)
+```
 
 
 
+### 装饰器调用顺序
 
+```
+def one(func):
+    print('----1----')
+    def two():
+        print('----2----')
+        func()
+    return two
 
+def a(func):
+    print('----a----')
+    def b():
+        print('----b----')
+        func()
+    return b
 
+@one
+@a
+def demo():
+    print('----3----')
 
+demo()
 
+结果:
+----a----
+----1----
+----2----
+----b----
+----3----
+```
 
+### logging
+
+| 普通情况下，在控制台显示输出   | `print()`                                |
+| ---------------- | ---------------------------------------- |
+| 报告正常程序操作过程中发生的事件 | `logging.info()`(或者更详细的`logging.debug()`) |
+| 发出有关特定事件的警告      | `warnings.warn()`或者`logging.warning`()   |
+| 报告错误             | 弹出异常                                     |
+| 在不引发异常的情况下报告错误   | `logging.error()`, `logging.exception()`或者`logging.critical()` |
+
+| 级别       | 级别数值 | 使用时机                      |
+| -------- | ---- | ------------------------- |
+| DEBUG    | 10   | 详细信息，常用于调试。               |
+| INFO     | 20   | 程序正常运行过程中产生的一些信息。         |
+| WARNING  | 30   | 警告用户，虽然程序还在正常工作，但有可能发生错误。 |
+| ERROR    | 40   | 由于更严重的问题，程序已不能执行一些功能了。    |
+| CRITICAL | 50   | 严重错误，程序已不能继续运行。           |
 
 
 

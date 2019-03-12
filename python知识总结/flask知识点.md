@@ -290,6 +290,40 @@ dict.get('uname')   # 推荐(在没有数据为空)
 dict.getlist('uname')   # 获取指定key对应的所有值
 ```
 
+### falsk钩子函数
+
+```
+@app.before_first_request: 接受第一次请求之前执行
+
+@app.before_request: 接受请求前，每次请求之前都执行。
+
+@app.route(): 处理请求
+
+@app.after_request: 请求之后执行，但前提是请求中没有出现异常
+-@app.teardown_request:  关闭请求时，即每次请求是否异常都会被执行
+
+
+用法：
+#...
+
+@app.before_first_request
+def handle_before_first_request():
+    pass
+
+@app.route('/')
+def index():
+    pass
+
+@app....
+def ...
+```
+
+
+
+
+
+
+
 
 
 ### falsk rest  API  实践例子
@@ -358,4 +392,65 @@ api.add_resource(Todo, '/todos/<todo_id>')
 if __name__ == '__main__':
     app.run(debug=True)
 ```
+
+### flask小知识点
+
+```
+request.args("q")  获取地址栏参数“q”
+```
+
+### flask WTForms知识点
+
+```
+表单字段：
+TextField            表示<input type ='text'> HTML表单元素
+BooleanField		表示<input type ='checkbox'> HTML表单元素
+DecimalField		用小数显示数字的文本字段
+IntegerField		用于显示整数的文本字段
+RadioField			表示<input type ='radio'>的HTML表单元素
+SelectField			表示选择表单元素
+TextAreaField		表示<testarea> html表单元素
+PasswordField		表示<input type ='password'> HTML表单元素
+SubmitField			表示<input type ='submit'>表单元素
+
+验证器：
+DataRequired		检查输入栏是否为空
+Email				检查字段中的文本是否遵循电子邮件ID约定
+IPAddress			验证输入字段中的IP地址
+Length				验证输入字段中字符串的长度是否在给定范围内
+NumberRange			在给定范围内的输入字段中验证一个数字
+URL					验证输入字段中输入的URL
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
