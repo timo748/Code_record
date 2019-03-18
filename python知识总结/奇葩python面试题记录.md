@@ -89,3 +89,52 @@ import my_singletonmy_singleton.foo()
 
 ```
 
+
+
+
+
+### python面试指导
+
+```
+#python2/3区别
+1、print()函数
+2、uncode编码
+3、列表字典生成器
+
+#二分法查找
+def binary_search(sorted_array,val):
+	if not sorted_array:
+		return -1
+	beg = 0
+	end = len(sorted_array)-1
+	while beg<=end:
+		mid = int((beg+end)/2)
+		if sorted_array[mid]==val:
+			return mid
+		elif sorted_array[mid]>val:
+			end = mid-1
+		else:
+			beg = mid+1
+	return -1
+	
+#反转列表
+class solution:
+	def reverselist(self,head):
+		pre = None
+		cur = head
+		while cur:
+			nextNode = cur.next
+			cur.next = pre
+			pre = cur
+			cut = nextnode
+		return pre
+	
+	
+	
+	
+	
+	
+	
+	
+```
+
