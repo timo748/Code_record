@@ -86,7 +86,11 @@ import my_singletonmy_singleton.foo()
 （2）如何动态获取和设置对象的属性。
 用python编写一个线程安全的单例模式实现。
 
-
+#打平
+a = [1, 2, [3, 4], [[5, 6], [7, 8]]]
+fn = lambda x: [y for l in x for y in fn(l)] if type(x) is list else [x]
+print（fn(a)）
+[1, 2, 3, 4, 5, 6, 7, 8]
 ```
 
 

@@ -205,7 +205,68 @@ Django 就会自动添加一个IntegerField字段做为主键，所以除非你�
  
 (22)choices
 由二元组组成的一个可迭代对象（例如，列表或元组），用来给字段提供选择项。 如果设置了choices ，默认的表单将是一个选择框而不是标准的文本框，<br>而且这个选择框的选项就是choices 中的选项。
+
 ```
+
+
+
+### ORM通用字段选项
+
+```
+#null
+设为 True 时，Django 在数据库中把空值存储为 NULL 。默认为 False 。基于字符串的字段，如 CharField 和 TextField ，不应该使用 null ，因为空字符串值始终存储为空字符串，而非 NULL 。对基于字符串和不基于字符串的字段来说，如果想让表单接受空值，还要设定 blank=True 。如果想让 BooleanField 接受 null 值，使用 NullBooleanField
+
+#blank
+设为 True 时，字段允许空白值。默认为 False 。注意，这与 null 不同。null 只针对数据库，而 blank 是针对数据验证的
+
+#choices
+可迭代的对象（如列表或元组），由两个元组（包括自身）组成的可迭代对象构成（如 [(A, B), (A, B) …] ），用于设定字段的选项。如果设定这个选项，默认的表单小组件将由标准的文本字段变成带选项的选择框。各元组中的第一个元素是真正在模型上设定的值，第二个元素是人类可读的名称。
+
+#db_column 
+字段使用的数据库列名称。如未指定，Django 将使用字段的名称
+
+#db_index
+设为 True 时，在字段上建立数据库索引。
+
+#db_tablespace
+为有索引的字段指定索引使用的数据库表空间（tablespace）名称。默认为项目的 DEFAULT_INDEX_TABLESPACE 设置，或者模型的 db_tablespace 属性。如果数据库后端不支持为索引指定表空间，忽略这个选项
+
+#default
+字段的默认值。可以是一个值，也可以是一个可调用对象。为后者时，每次新建对象都会调用一次。默认值不能是可变的（mutable）对象（模型实例、列表、集，等等），因为对那个对象的引用将作为所有新模型实例中字段的默认值。
+
+#editable
+设为 False 时，字段不在管理后台或其他 ModelForm 中显示。验证模型时也会跳过。默认为 True
+
+#error_messages
+用于覆盖字段抛出异常时的默认消息。值为一个字典，通过键指定想覆盖的错误消息。错误消息键包括 null 、 blank 、 invalid 、invalid_choice 、 unique 和 unique_for_date
+
+#help_text
+在表单小组件旁显示的额外帮助文本。即便不在表单中显示，也能用作文档。注意，在自动生成的表单中，不会转义这里的 HTML，因此，如果需要，可以在帮助文本中使用 HTML。
+
+#primary_key
+设为 True 时，指定字段为模型的主键。如果模型中没有一个字段设定primary_key=True ，Django 会自动添加一个 AutoField ，用于存储主键，因此，除非想覆盖默认的主键行为，否则无需在任何字段上设定primary_key=True 。主键字段是只读的
+
+#unique
+设为 True 时，在表中字段的值必须是唯一的。这一限制由数据库层和模型验证实施。除了 ManyToManyField 、 OneToOneField 和 FileField 之外，其他字段都可以设定这个选项。
+
+#unique_for_date
+设为 DateField 或 DateTimeField 字段的名称，确保与所在字段的组合是唯一的。假如有个 title 字段设定了 unique_for_date="pub_date" ，那么Django 不允许出现 title 和 pub_date 都相同的两条记录。这个限制在验
+证模型时由 Model.validate_unique() 实施，而不在数据库层实施
+
+#unique_for_month 
+类似于 unique_for_date ，不过验证唯一性时考虑的是月份
+
+#unique_for_year
+类似于 unique_for_date ，不过验证唯一性时考虑的是年份
+
+#verbose_name
+字段的人类可读名称。如果未设定，Django 将使用字段的属性名称（下划线转换成空格）自动生成一个。
+
+#validators 
+用于验证字段的验证器列表
+```
+
+
 
 ### ORM查询 API
 
