@@ -1,3 +1,11 @@
+### 开发遇到问题记录
+
+```
+数据库迁移是不能新建表解决办法： python3 manage.py makemigrations --empty foodsapp
+```
+
+
+
 ### 创建 Django 工程
 
 ```
