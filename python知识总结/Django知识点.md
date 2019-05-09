@@ -2,6 +2,15 @@
 
 ```
 数据库迁移是不能新建表解决办法： python3 manage.py makemigrations --empty foodsapp
+
+pdb常用指令：
+n：表示next，执行当前语句，指向下一行语句；
+s：step in 跳入执行某个函数；
+c：continue 恢复执行状态；
+l：list 列出当前要执行语句的上下代码；
+ll：long list 展示当前函数的所有代码；
+r：return 直接执行返回结果部分；
+q：quit 退出pdb 退出程序；
 ```
 
 
