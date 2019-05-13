@@ -31,6 +31,7 @@ https://learnku.com/docs/pymotw
 ### Linux
 
 ```
+Linux中常用操作命令：https://mp.weixin.qq.com/s/1pNv9lGyd86Ii0Lj2h6HXg
 
 ```
 
@@ -50,6 +51,8 @@ innodb中MVCC的一些理解：https://www.cnblogs.com/chenpingzhao/p/5065316.ht
 数据库事务的四大特性及事务隔离级别：https://www.cnblogs.com/z-sm/p/7245981.html
 理解事务的4种隔离级别：https://blog.csdn.net/qq_33290787/article/details/51924963
 『浅入浅出』MySQL 和 InnoDB：https://draveness.me/mysql-innodb
+MySQL数据库优化：https://mp.weixin.qq.com/s/kD2RDiexH5w3y88jHpdciA
+
 
 ```
 
