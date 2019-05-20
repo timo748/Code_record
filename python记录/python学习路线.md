@@ -52,7 +52,11 @@ innodb中MVCC的一些理解：https://www.cnblogs.com/chenpingzhao/p/5065316.ht
 理解事务的4种隔离级别：https://blog.csdn.net/qq_33290787/article/details/51924963
 『浅入浅出』MySQL 和 InnoDB：https://draveness.me/mysql-innodb
 MySQL数据库优化：https://mp.weixin.qq.com/s/kD2RDiexH5w3y88jHpdciA
-
+mysql操作规范：https://mp.weixin.qq.com/s/8k9Xrk1RPV24EIlxmsVQGw
+数据库面试20题：https://mp.weixin.qq.com/s/KinPHQ3Al9yThunopbwhDQ
+MySQL 大表优化方案:https://mp.weixin.qq.com/s/AQb4-D1MwlULCEPoQla9sA
+mysql事物原理：https://mp.weixin.qq.com/s/pZXDyc88pvp8pDtO3rGD_w
+项目中mysql优化：https://mp.weixin.qq.com/s/hJZqLVR2txhsSyJffCrUxQ
 
 ```
 
