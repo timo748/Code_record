@@ -8,7 +8,8 @@
     Go 函数（Function）
     面向对象（Methods, Interfaces and Embedding）
     包处理（Packaging and Exporting）
-    Go 指针（Using Pointers）
+    数组&切片
+    Go 指针、结构、方法（Using Pointers）
     程序测试（Testing and Debugging）
     对象合成（Composition）
     错误处理（Error Handling）

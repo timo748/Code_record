@@ -2,7 +2,7 @@
 
 （@click="switchNav(extend1.url,extend1.tag)"）
 
-```
+```javascript
 switchNav(url,tag){
     //标识当前导航
     this.currentTag = tag;
