@@ -91,3 +91,42 @@
         //请求出错处理
     }
     });
+
+### promise实现ajax
+
+```javascript
+function pajax({
+  url=null,
+  method = 'GET',
+  datatype='JSON',
+  async = true
+}){
+  return new Promise((resolve,reject)=>{
+  let xhr = new XMLHTTPRequest()
+  xhr.open(method,url,async)
+  xhr.responseType = dataType
+  xhr.onreadystaechange = () =>{
+  if(!/^[23]\d{2}$/.test(xhr.status))return 
+  if(xhr.readState==4){
+  let result = xhr.responseText
+  resolve(result)
+}
+}
+  xhr.onerror = (err)=>{
+  reject(err)
+}
+  xhr.send()
+})
+}
+  
+ //调用
+  ajax({
+  url;"api.php",
+  method:"POST"
+}).then((result)=>{
+  console.log(123)
+}).err()=>{
+  
+}
+```
+
