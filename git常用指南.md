@@ -5,6 +5,7 @@ git strtus *  查看当前状态
 git diff *  查看文件的修改
 git commit  -m 提交本次修改
 git push origin master  推送当前分支到远端
+
 ```
 
 ### 仓库初始化
