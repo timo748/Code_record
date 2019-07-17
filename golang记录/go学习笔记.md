@@ -360,3 +360,44 @@ func main() {
 }
 ```
 
+
+
+
+
+### go方法调用
+
+```go
+type A struct{
+  a int
+}
+
+func (this A) test(){
+  fmt.print("this.a")
+}
+
+var t A
+t.test()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
