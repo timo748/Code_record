@@ -408,3 +408,33 @@ this.$root.website="陌上寒个人博客"
 console.log(this.$root.website)
 ```
 
+### vue弹窗之后移动位置复原
+
+```javascript
+<div @focusout="inputBlur" @focusin="inputFocus">
+    <input type="text" placeholder="请填写省市县" />
+    <input type="text" placeholder="请填写地址" />
+    <input type="text" placeholder="请填写姓名" />
+    <input type="text" placeholder="请填写联系电话" />
+</div>
+
+inputBlur(e) {
+        // 首先，判断触发事件的目标元素是否是input输入框，我们只关注输入框的行为。
+        if (e && e.target && e.target.tagName && e.target.tagName.toLowerCase() === 'input') {
+            // 输入框失去焦点，要把iOS键盘推出页面的滚动部分还原。即将页面滚动到视窗顶部对齐
+            console.log('设置timer')
+            this.timer = setTimeout(() => {
+                console.log('timer触发')
+                window.scrollTo(0, 0);
+            }, 0)
+        }
+    },
+
+    inputFocus(e) {
+        // 如果focus，则移除上一个输入框的timer
+        if (e && e.target && e.target.tagName && e.target.tagName.toLowerCase() === 'input') {
+            clearTimeout(this.timer);
+        }
+    }
+```
+

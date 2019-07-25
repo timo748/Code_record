@@ -10,3 +10,5 @@ golang123：<https://github.com/shen100/golang123>
 
 go推送实现：<https://github.com/owenliang/go-push>
 
+聊天室：<https://github.com/qor/qor>
+
