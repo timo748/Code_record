@@ -1,6 +1,6 @@
 ### 判断设备来源
 
-```
+```javascript
 function deviceType(){
         var ua = navigator.userAgent;
         var agent = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];    
@@ -28,7 +28,7 @@ function deviceType(){
 
 ### 获取当前时间
 
-```
+```javascript
 export default const obtainDate=()=>{
  let date = new Date();
       let year = date.getFullYear();
@@ -48,7 +48,7 @@ export default const obtainDate=()=>{
 
 ### 时间转化
 
-```
+```javascript
 export const dateReurn1=(date1)=>{
     date1.toLocaleString("en-US", { hour12: false }).replace(/\b\d\b/g, '0$&').replace(new RegExp('/','gm'),'-')
 }
@@ -56,7 +56,7 @@ export const dateReurn1=(date1)=>{
 
 ### 对象遍历
 
-```
+```javascript
 export const traverseObj=(obj)=>{
         for(let variable in obj){
         //For…in遍历对象包括所有继承的属性,所以如果
@@ -70,7 +70,7 @@ export const traverseObj=(obj)=>{
 
 ### promise
 
-```
+```javascript
 export const promiseDemo=()=>{
 new Promise((resolve,reject)=>{
     resolve(()=>{
@@ -94,7 +94,7 @@ Promise.resolve([1,2,3]).then((data)=>{//直接初始化一个Promise并执行re
 
 ### 浅拷贝
 
-```
+```javascript
 var nameObj = { name: { school: 'zfpx' } };
 var ageObj = { age: 9 };
 var obj = {};
@@ -104,7 +104,7 @@ console.log(obj);
 
 ### 递归深拷贝
 
-```
+```javascript
 let obj = {
     name: 'zfpx',
     home: ['1', 2, { name: 1 }],
@@ -128,7 +128,7 @@ console.log(cloneObj);
 
 ### 节流函数
 
-```
+```javascript
 /**
  * 配置节流函数
  * @param  {[Function]}  fn     [要执行的函数]
@@ -159,7 +159,7 @@ exports.throttle = (fn, wait, mustRun) => {
 
 ### 判断变量是对象还是数组
 
-```
+```javascript
 function isObjArr(value){
      if (Object.prototype.toString.call(value) === "[object Array]") {
             console.log('value是数组');
@@ -173,7 +173,7 @@ function isObjArr(value){
 
 ### promise
 
-```
+```javascript
 依照 Promise/A+ 的定义，Promise 有四种状态：
 
 pending: 初始状态, 非 fulfilled 或 rejected.
@@ -229,7 +229,7 @@ Promise.resolve([1,2,3]).then((data)=>{//直接初始化一个Promise并执行re
 
 ### 获取当前的时间yyyy-MM-dd HH:mm:ss
 
-```
+```javascript
 export default const obtainDate=()=>{
  let date = new Date();
       let year = date.getFullYear();
@@ -249,7 +249,7 @@ export default const obtainDate=()=>{
 
 ### 节流函数
 
-```
+```javascript
 ／**
 *  @  { Function} callBack 回调程序    
 *  @  { Number } delay  延时时间
@@ -285,7 +285,7 @@ window.onresize=thorttleFn(myFunc,50,300)
 
 ### log封装
 
-```
+```javascript
 function log(){
   var newArguments = []
   if(arguments.length > 0){
@@ -299,7 +299,7 @@ function log(){
 
 ### 二分法排序
 
-```
+```javascript
 function sortMany(arr){
   if(arr.length <= 1){
     return arr
@@ -321,7 +321,7 @@ function sortMany(arr){
 
 ### 正则校验API
 
-```
+```javascript
 let checkType=(function(){
     let rules={
         email(str){
@@ -378,7 +378,7 @@ console.log(checkType.check('18.36','money'));
 
 ### jspnp实现
 
-```
+```javascript
 (function (global) {
     var id = 0,
         container = document.getElementsByTagName("head")[0];
@@ -439,7 +439,7 @@ jsonp({
 
 ### 常用正则
 
-```
+```javascript
 身份证：
 //第二代身份证号码正则
 let isTrue = /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
@@ -488,7 +488,7 @@ let isTrue=[1-9]{1}(\d+){5};
 
 ### 移动端触摸事件
 
-```
+```javascript
 // 手指接触屏幕
 document.addEventListener('touchstart', event => {
   this.startY = event.touches[0].pageY;
@@ -508,7 +508,7 @@ document.addEventListener('touchend', event => {
 
 ### 微信ios页面回退不刷新
 
-```
+```javascript
 var isPageHide = false;
 window.addEventListener('pageshow', function () {
       if (isPageHide) {
@@ -522,7 +522,7 @@ window.addEventListener('pagehide', function () {
 
 ### js 判断屏幕的方向或者resize事件
 
-```
+```javascript
 var evt = "onorientationchange" in window ? "orientationchange" : "resize";
     window.addEventListener(evt, function() {
         var width = document.documentElement.clientWidth;
@@ -572,7 +572,33 @@ var evt = "onorientationchange" in window ? "orientationchange" : "resize";
 }
 ```
 
+### 实现图片懒加载
 
+```javascript
+
+<ul>
+    <li><img src="./img/default.png" data="./img/1.png" alt=""></li>
+    <li><img src="./img/default.png" data="./img/2.png" alt=""></li>
+    <li><img src="./img/default.png" data="./img/3.png" alt=""></li>
+    <li><img src="./img/default.png" data="./img/4.png" alt=""></li>
+    <li><img src="./img/default.png" data="./img/5.png" alt=""></li>
+    <li><img src="./img/default.png" data="./img/6.png" alt=""></li>
+    <li><img src="./img/default.png" data="./img/7.png" alt=""></li>
+    <li><img src="./img/default.png" data="./img/8.png" alt=""></li>
+</ul>
+let imgs =  document.querySelectorAll('img')
+// 窗口可视区高度
+let clientHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+// img 距离窗口可视区顶部的距离 imgs[i].getBoundingClientRect().top
+function lazyLoadImg () {
+    for (let i = 0; i < imgs.length; i ++) {
+        if((imgs[i].getBoundingClientRect().top + imgs[i].height)>=0&&imgs[i].getBoundingClientRect().top < clientHeight ){
+            imgs[i].src = imgs[i].getAttribute('data')
+        }
+    }      
+}
+window.addEventListener('scroll', lazyLoadImg);
+```
 
 
 

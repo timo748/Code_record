@@ -29,7 +29,7 @@ s   与m相反，单行匹配
 
 ### 数组去重
 
-```
+```javascript
 Array.prototype.unique = function unique() {
     var obj = {};
     for (var i = 0; i < this.length; i++) {
@@ -49,7 +49,7 @@ Array.prototype.unique = function unique() {
 
 ### es6数组去重
 
-```
+```javascript
 var arr = [10, 3, 4, 5, 6, 3, 4, 5, 6, 11, 14];
 function fillter(arrth) {
     return arrth.filter(function(ele, index, array) {
@@ -70,7 +70,7 @@ export const clear = (storage = localStorage) => storage.clear()
 
 ### sleep封装
 
-```
+```javascript
 promise：
 function sleep(ms){
   var temple=new Promise(
@@ -99,7 +99,7 @@ test();
 
 ### 动态加载js文件
 
-```
+```javascript
 module.exports.loadScript = (url, callback) => {
   let script  = document.createElement('script');
   script.type = 'text/javascript';
@@ -127,7 +127,7 @@ module.exports.loadScript = (url, callback) => {
 
 ### 跳转到App打开页面，如果没有则跳转app下载页面
 
-```
+```javascript
 module.exports.goApp = href => {
   let src = `yixinli://${href}`;
   let ifr;
@@ -166,7 +166,7 @@ module.exports.goApp = href => {
 
 ### 截取剩余时间
 
-```
+```javascript
 /**
  * 获取剩余时间
  * @param  {Number} endTime    截止时间
@@ -196,7 +196,7 @@ module.exports.getRemainTime = (endTime, serverTime) => {
 
 ### 节流函数
 
-```
+```javascript
 * 函数节流方法
 * @param Function fn 延时调用函数
 * @param Number delay 延迟多长时间
