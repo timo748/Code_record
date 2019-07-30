@@ -598,11 +598,92 @@ function lazyLoadImg () {
     }      
 }
 window.addEventListener('scroll', lazyLoadImg);
+
+
+新API实现：
+ <li class="list-item"><img class="list-item-img" alt="loading" data-src='./images/icon1.png'></li>
+        <li class="list-item"><img class="list-item-img" alt="loading" data-src='./images/icon2.png'></li>
+        <li class="list-item"><img class="list-item-img" alt="loading" data-src='./images/icon3.png'></li>
+        <li class="list-item"><img class="list-item-img" alt="loading" data-src='./images/icon4.png'></li>
+        <li class="list-item"><img class="list-item-img" alt="loading" data-src='./images/icon5.png'></li>
+        <li class="list-item"><img class="list-item-img" alt="loading" data-src='./images/icon6.png'></li>
+
+        <script>
+            var observer = new IntersectionObserver(function(changes) {
+                console.log(changes);
+                changes.forEach(function(element, index) {
+                    // statements
+                    if (element.intersectionRatio > 0 && element.intersectionRatio <= 1) {
+                        element.target.src = element.target.dataset.src;
+                    }
+                });
+            });
+
+
+            function addObserver() {
+                var listItems = document.querySelectorAll('.list-item-img');
+                listItems.forEach(function(item) {
+                    observer.observe(item);
+                });
+            }
+
+            addObserver();
+        </script>
 ```
 
+### promise使用用例
+
+```javascript
+var waidSecond = new promise(function(resolve,reject){
+  setTimeout(resolve,1000)
+})
+
+waidSecond.then(function(){
+  console.log("123")
+  return waidSecond;
+}).then(function(){
+  consolog.log("456")
+})
+
+原始写法
+setTimeout(function(){
+  console.log("123")
+  setTimeout(function(){
+    console.log("456")
+  },1000)
+},1000)
+```
+
+### async/await写法
+
+```javascript
+//promise实现方法：
+function takeLongTime() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("long_time_value"), 1000);
+    });
+}
+
+takeLongTime().then(v => {
+    console.log("got", v);
+});
 
 
 
+//async/await使用方法：
+function takeLongTime() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("long_time_value"), 1000);
+    });
+}
+
+async function test() {
+    const v = await takeLongTime();
+    console.log(v);
+}
+
+test();
+```
 
 
 
