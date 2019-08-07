@@ -381,7 +381,66 @@ t.test()
 
 
 
+### json序列化与反序列化
 
+```go
+main{
+  	res:=make(map[string]interface{})
+	res["code"] =200
+	res["msg"]="success"
+	res["data"]= map[string]interface{}{
+		"username":"tom",
+		"age":"30",
+		"hobby":[]string{"读书","爬山"},
+	}
+	fmt.Println("map data:",res)
+	// 序列化
+	jsons,errs := json.Marshal(res)
+	if errs != nil {
+		fmt.Println(errs)
+	} 
+	fmt.Println(string(jsons))
+
+	// 反序列化
+	res2 :=make(map[string]interface{})
+	errs = json.Unmarshal([]byte(jsons),&res2)
+	if errs != nil {
+		fmt.Println(errs)
+	}
+	fmt.Println(res2)
+}
+```
+
+
+
+### chan使用实例
+
+```go
+main{
+  fmt.Println("3333")
+	ch := make(chan string,3)
+	go pru(ch)
+	go cut(ch)
+	time.Sleep(time.Second*1)
+	fmt.Println("44444")
+}
+
+func pru(ch chan string){
+	fmt.Println("111111")
+	ch <-"a"
+	ch <-"b"
+	ch <-"c"
+	ch <-"d"
+	fmt.Println("2222")
+}
+
+func cut(ch chan string){
+	for{
+		msg := <-ch
+		fmt.Println(msg)
+	}
+}
+```
 
 
 
