@@ -610,3 +610,176 @@ func main() {
 
 ```
 
+### 遍历目录下的文件
+
+```go
+func getFilelist(r string) {
+    err := filepath.Walk(r, func(p string, f os.FileInfo, err error) error {
+        if f == nil {
+            return nil
+        }
+        if p == r || f.IsDir() {
+            return nil
+        }
+        fmt.Println(p)
+        return nil
+    })
+    if err != nil {
+        fmt.Printf("filepath.Walk() returned %v\n", err)
+    }
+}
+```
+
+### 定时器
+
+```go
+duration := 2 * time.Second
+timer := time.NewTimer(duration)
+go func() {
+    for {
+        select {
+        case <-timer.C:
+            fmt.Println("here")
+            timer.Reset(duration)
+        }
+    }
+}()
+```
+
+### 执行定时任务
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+const INTERVAL_PERIOD time.Duration = 24 * time.Hour
+
+const HOUR_TO_TICK int = 23
+const MINUTE_TO_TICK int = 00
+const SECOND_TO_TICK int = 03
+
+func main() {
+    ticker := updateTicker()
+    for {
+        <-ticker.C
+        fmt.Println(time.Now(), "- just ticked")
+        ticker = updateTicker()
+    }
+}
+
+func updateTicker() *time.Ticker {
+    n := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(),
+        HOUR_TO_TICK, MINUTE_TO_TICK, SECOND_TO_TICK, 0, time.Local)
+
+    if !n.After(time.Now()) {
+        n = n.Add(INTERVAL_PERIOD)
+    }
+    fmt.Println(n, "- next tick")
+    diff := n.Sub(time.Now())
+    return time.NewTicker(diff)
+}
+```
+
+### 读取文件
+
+```go
+f, err := os.Open("/test.txt")
+if err != nil {
+    panic(err)
+}
+defer f.Close()
+fd, err := ioutil.ReadAll(f)
+if err != nil {
+    panic(err)
+}
+fmt.Println(string(fd))
+```
+
+### map转json
+
+```go
+m := make(map[string]interface{})
+m["show"] = "1"
+m["content"] = "test"
+j, err := json.Marshal(m)
+if err != nil {
+    panic(err)
+}
+fmt.Println(string(j))
+```
+
+### json转map
+
+```go
+var result = []byte(`
+{
+    "show": 1,
+    "content": "test"
+}`)
+
+var r map[string]interface{}
+if err := json.Unmarshal(result, &r); err != nil {
+    panic(err)
+}
+fmt.Println(r)
+```
+
+### 写文件
+
+```go
+func writeFile(path string, b []byte) {
+    file, err := os.OpenFile(path, os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0777)
+    defer file.Close()
+
+    if err != nil {
+        panic(err)
+    }
+
+    file.Write(b)
+}
+```
+
+### 简单获取ip
+
+```go
+func GetPulicIP() string {
+    conn, _ := net.Dial("udp", "8.8.8.8:80")
+    defer conn.Close()
+    localAddr := conn.LocalAddr().String()
+    idx := strings.LastIndex(localAddr, ":")
+    return localAddr[0:idx]
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
