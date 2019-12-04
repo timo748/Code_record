@@ -438,3 +438,24 @@ inputBlur(e) {
     }
 ```
 
+### 动态修改路由地址参数
+
+```javascript
+import merge from 'webpack-merge'；
+ 
+修改原有参数        
+this.$router.push({
+    query:merge(this.$route.query,{'maxPrice':'630'})
+})
+ 
+新增一个参数：
+this.$router.push({
+    query:merge(this.$route.query,{'addParams':'我是新增的一个参数，哈哈哈哈'})
+})
+ 
+替换所有参数：
+ this.$router.push({
+    query:merge({},{'maxPrice':'630'})
+})
+```
+
