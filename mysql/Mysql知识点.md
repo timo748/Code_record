@@ -211,6 +211,11 @@ SELECT COUNT(*) FROM student;
 SELETE SUM(servlet) from student;
 
 
+排序查询：
+按多列排序:先按照age排序，如果年纪相同，则按照薪资排序
+SELECT * from employee ORDER BY age,salary DESC;
+
+
 分组查询(group by)
 
 需求:查询每个地区有多少人
