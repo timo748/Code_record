@@ -370,6 +370,16 @@ group by/Distinct/order by 语句优化
 2)避免设置 offset 值,也就是避免丢弃记录,可以使用条件限制要排序的结果集
 ```
 
+
+
+### 添加索引
+
+```
+ALTER table 表名 ADD INDEX 索引名字(字段)
+```
+
+
+
 ### 索引优化技巧
 
 ```
