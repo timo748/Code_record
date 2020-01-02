@@ -7,38 +7,29 @@ mysql -uroot -p$(cat /root/.pw)
 
 
 
-### flask-sqlchemy链接数据库地址
+### 字段数据类型
 
 ```
-Postgres：postgresql://scott:tiger@localhost/mydatabase
-MySQL：mysql://scott:tiger@localhost/mydatabase
-Oracle：oracle://scott:tiger@127.0.0.1:1521/sidname
-SQLite：sqlite:////absolute/path/to/foo.db
-```
+int：整型
 
+double：浮点型，例如double(5,2)表示最多5位，其中必须有2位小数，即最大值为999.99；
 
+char：固定长度字符串类型； char(10)  'abc       '
 
-### flask-sqlchemy
+varchar：可变长度字符串类型；varchar(10) 'abc'
 
-```
-from sqlalchemy import create_engine
+text：字符串类型;
 
-# 数据库的配置变量
-HOSTNAME = '127.0.0.1'
-PORT = '3306'
-DATABASE = 'xt_flask'
-USERNAME = 'root'
-PASSWORD = 'root'
-DB_URI = 'mysql+mysqldb://{}:{}@{}:{}/{}'.format(USERNAME,PASSWORD,HOSTNAME,PORT,DATABASE)
+blob：字节类型；
 
-# 创建数据库引擎
-engine = create_engine(DB_URI)
+date：日期类型，格式为：yyyy-MM-dd；
 
-#创建连接
-with engine.connect() as con:
-    rs = con.execute('SELECT 1')
-    print rs.fetchone()
-sqlalchemy连接：dialect+driver://username:password@host:port/database?charset=utf8
+time：时间类型，格式为：hh:mm:ss
+
+timestamp：时间戳类型 yyyy-MM-dd hh:mm:ss  会自动赋值
+
+datetime:日期时间类型 yyyy-MM-dd hh:mm:ss
+
 ```
 
 
@@ -50,6 +41,8 @@ create database + 数据库名称 + [库选项];
 reate database TBL_ERROR_CODE charset utf8;
 ```
 
+
+
 ### 查询数据库
 
 ```
@@ -59,12 +52,16 @@ show databases like 'pattern';
 _：表示匹配单个字符
 ```
 
+
+
 ### 删除数据库
 
 ```
 drop database + 数据库名称;
 
 ```
+
+
 
 ### 新增表中字段
 
@@ -74,12 +71,16 @@ alter table + 表名 + add + [column] + 字段名 + 数据类型 + [列属性][�
 alter table student add column id int first;
 ```
 
+
+
 ### 修改字段
 
 ```
 alter table + 表名 + modify + 字段名 + 数据类型 + [列属性][位置];
 alter table student modify name char(10) after id;
 ```
+
+
 
 ### 重命名字段
 
@@ -88,12 +89,16 @@ alter table + 表名 + change + 旧字段名 + 新字段名 + 数据类型 + [�
 alter table student change grade class varchar(10);
 ```
 
+
+
 ### 删除字段
 
 ```
 alter table + 表名 + drop+ 字段名;
 alter table student drop age;
 ```
+
+
 
 ### 给全表字段插入数据
 
@@ -102,6 +107,8 @@ insert into + 表名 + values(值列表)[,(值列表)];
 insert into test values('charies',18,'3.1');
 ```
 
+
+
 ### 给部分字段插入数据
 
 ```
@@ -109,11 +116,15 @@ insert into + 表名(字段列表) + values(值列表)[,(值列表)];
 insert into test(age,name) values(18,'guo');
 ```
 
+
+
 ### 清除重复字段
 
 ```
 select  distinct  name  from  student
 ```
+
+
 
 ### 查询数据
 
@@ -144,9 +155,12 @@ SELECT id, name, gender, score FROM students ORDER BY score DESC;
 左表 cross join 右边;
 select * from student cross join class;
 
-内连接查询：
+***内连接查询：
 左表 + [inner] + join + 右表 + on + 左表.字段 = 右表.字段;
 select * from student inner join class on student.grade = class.grade;
+
+SELECT employee.name,dept.name FROM employee,dept WHERE employee.deptId=dept.id;
+SELECT e.name,d.name FROM employee e INNER JOIN dept d ON e.deptId=d.id;
 
 外链接查询：
 左表 + left\right + join + 右表 + on + 左表.字段 = 右表.字段;
@@ -165,12 +179,67 @@ select * from student natural left join class;
 联合查询：
 select 语句1 + union + [union选项] + select 语句2 + ...; 
 
-查询字段记录总数：
-SELECT COUNT(*) FROM students;
+查询时去除重复(distinct)：
+selete DISTINCT address from student;
+
+条件查询 and or：
+查询学生的id为1，且姓名为张三的学生
+selete * from student where id=1 and name='张三';(交集)
+
+
+聚合查询：
+Max()取最大值  min()取最小值  avg()取平均值  count()统计标的记录数量 sum()求和
+
+需求:查询servlet的最高分
+
+SELECT MAX(servlet) FROM student;
+
+需求:查询mysql的最低分
+
+SELECT MIN(mysql) FROM student;
+
+需求:查询servlet的平均分
+
+SELECT AVG(servlet) FROM student;
+
+需求:查询当前有几个学生
+
+SELECT COUNT(*) FROM student;
+
+需求:查询servlet成绩的总和
+
+SELETE SUM(servlet) from student;
+
+
+分组查询(group by)
+
+需求:查询每个地区有多少人
+
+SELECT address,COUNT(*) FROM student GROUP BY address;
+
+需求:统计男女的人数
+
+注意:where条件必须放在group by 分组之前
+
+SELECT gender,COUNT(*) FROM student WHERE gender IS NOT NULL AND gender<>'' GROUP BY gender;
+
+
+
+分组后筛选(having)
+
+需求:查询哪些地区的人数是大于2个的地区
+
+查询哪些地区多少人 2)筛选人数大于2的地区
+
+注意:having使用在group by分组之后，对分组后的条件进行筛选
+
+SELECT address,COUNT(*) FROM student GROUP BY address HAVING COUNT(*)>2;
 
 
 
 ```
+
+
 
 ### 更新数据
 
@@ -179,6 +248,8 @@ update + 表名 + set + 字段 = 值 + [where 条件];
 update test set age = 20 where name = 'guo';
  update + 表名 + set + 字段 = 值 + [where 条件] + [limit 更新数量];
 ```
+
+
 
 ### 删除数据
 
@@ -189,6 +260,8 @@ delete + from + 表名 + [where 条件] + [limit 删除数量];
 DELETE FROM students WHERE id>=5 AND id<=7;
 
 ```
+
+
 
 ### 新增外键
 
@@ -201,6 +274,49 @@ alter table + 表名 + add[constraint + 外键名字] + foreign key(外键字段
 
 删除外键：
 alter table + 表名 + drop foreign key + 外键名字;
+
+添加外键约束(foreign key)
+Constraint employee_dept_fk foreign key(deptId) references dept(id)
+
+          　　　外键名                     外键字段  
+
+
+外键约束在什么情况下会起作用？
+
+插入数据:当往副表插入了主表中不存在的数据时，外键起作用
+
+修改数据:当往副表中修改主表中不存在的数据时，外键起作用
+
+删除数据:副表中有关联主表数据的情况下，当删除主表数据时，外键起作用
+
+
+当有了外键之后，应该如何管理数据呢？
+
+插入数据:先插入主表的数据，再插入副表数据
+
+修改数据:先修改主表数据，再修改副表数据
+
+删除数据:先删除副表数据，再删除主表数据
+
+
+级联:当有了外键的时候，我们希望修改或删除数据的时候，修改或删除主表数据时，同时能够影响副表的数据，这时就可以使用级联
+
+Create table employee(
+
+　　Id int primary key auto_increment,
+
+　　name varchar(20),
+
+　　deptId int,
+
+　　添加外键约束(foreign key)
+
+　　添加级联修改:on update cascade
+
+　　添加级联修改:on delete cascade
+
+　　Constraint employee_dept_fk(外键名) foreign key(deptId) ( 外键字段 ) references dept(id) on update cascade on delete cascade
+);
 ```
 
 ### 数据备份
@@ -306,4 +422,29 @@ join 字段在不同表上类型和命名要一致
 ```
 
 
+
+### 单表查询
+
+```
+from 说明是来自那一张表
+where 条件 后面可以跟比较运算符 between and in(. ). like（%表示任意字符 _表示一个字符）逻辑运算符 
+group by 以某个字段的值进行分组，发生在where之后，查看组类信息依赖于聚合函数max min avg sum count
+having 过滤，在group by 后面的条件筛选
+order by 排序 asc升序 desc降序
+limite 限制查询 记录数 limte a, b. a表示从第a个开始，b表示查询b条
+```
+
+### 多表查询
+
+```
+语法：select 字段 from t1 inner/left/right join t2 on t1.字段=t2.字段；
+inner 表示只显示连接匹配的行
+left：优先显示左表的全部记录
+right：优先显示右表的全部记录
+
+子查询中的关键字
+in/not in：查询的结果是否在子表中
+运算符：= < > !=
+exits:表示存在，使用此关键字时，内层查询语句不返回查询的记录，而是返回一个布尔值，当此布尔值为真时外层语句进查询，反之不进行查询
+```
 
