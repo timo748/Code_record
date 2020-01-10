@@ -37,10 +37,15 @@ datetime:日期时间类型 yyyy-MM-dd hh:mm:ss
 ### 字段规范
 
 ```
+
 InnoDB表是索引聚集组织表（IOT）， 所有的行数据（row data）都是以主键（严格意义讲，是聚集索引）逻辑顺序存储，而二级索引（或称辅助索引，secondary index）的value则同时包含主键。
 InnoDB的最小I/O单位是data page（默认一个data page大小是16KB），在buffer pool中的最小单位是data page（而不是每行数据哦）。因此也可以这么理解，一个data page里的热点数据越多，其在buffer pool的命中率就会越高。
 MySQL复制环境中，如果binlog format是row的，则从库上的数据更新时是以主键为依据进行apply的，如果没有主键则将可能会有灾难性的后果。
+
 此外，强烈建议每张表三个必加字段：aid（int/bigint unsigned类型，自增长列，并且作为主键），create_time（timestamp或int unsigned）、update_time（和create_time相同）用于记录行创建时间以及最后更新时间，在业务上以及日常维护上会有很多便利；
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`update_time` timestamp(2) NOT NULL DEFAULT CURRENT_TIMESTAMP(2) ON UPDATE CURRENT_TIMESTAMP(2) COMMENT '修改时间',
+
 
 个表建议不超过30-50个字段
 优先选择utf8mb4字符集，它的兼容性最好，而且还支持emoji字符。如果对存储容量比较敏感的，可以改成latin1字符集
