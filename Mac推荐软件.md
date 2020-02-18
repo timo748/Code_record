@@ -33,3 +33,13 @@ FTP:filezilla
 接口测试：postman
 
 垃圾清理：tencent Lemon Lite
+
+
+
+安装mac包损坏方法：
+
+ sudo bash
+
+xattr -cr /Applications/Navicat\ Premium.app/ 
+
+再次点击打开
