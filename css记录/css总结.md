@@ -101,7 +101,6 @@ conic-gradient(#f1462c` `0` `12.5%, #fba73e` `0` `25%, #e0fa4e` `0` `37.5%, #12d
 body{}
 
  <div class="choose"><label><input type=":checked">香蕉</label></div>   多个选择
-
 ### 移动端惯性滑动：
 
 ### -webkit-overflow-scrolling:touch;
@@ -136,7 +135,6 @@ input{
 
 手机video 都可以在页面中播放，而不是全屏播放了。
 <video src="test.mp4" webkit-playsinline="true"></video>
-
 
 使用clearfix 清除浮动，解决父类高度崩塌。
 .clearfix {
@@ -444,7 +442,11 @@ div,input(selector) {-webkit-tap-highlight-color: rgba(0,0,0,0);}
 
 
 
+### 高斯模糊
 
+```
+backdrop-filter: saturate(180%) blur(6px);
+```
 
 
 
