@@ -757,9 +757,44 @@ func GetPulicIP() string {
 
 
 
+###golang倒计时与周期
+
+```go
+ticker:=time.NewTicker(time.Second*5)
+    go func() {
+        for _=range ticker.C {
+            println("test")
+        }
+    }()
+
+time.Sleep(time.Minute)
+
+####倒计时
+ timer2 := time.NewTimer(time.Second)
+    go func() {
+        //等触发时的信号
+        <-timer2.C
+        fmt.Println("Timer 2 expired")
+    }()
+    //由于上面的等待信号是在新线程中，所以代码会继续往下执行，停掉计时器
+    time.Sleep(time.Second*5)
 
 
-
+//golang 定时器，启动的时候执行一次，以后每天晚上12点执行
+func startTimer(f func()) {
+        go func() {
+            for {
+                f()
+                now := time.Now()
+                // 计算下一个零点
+                next := now.Add(time.Hour * 24)
+                next = time.Date(next.Year(), next.Month(), next.Day(), 0, 0, 0, 0, next.Location())
+                t := time.NewTimer(next.Sub(now))
+                <-t.C
+            }
+        }()
+    }
+```
 
 
 
