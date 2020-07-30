@@ -249,17 +249,175 @@ dateFormatter('YYYY-MM-DD HH:mm', '1995/02/15 13:55') // 1995-02-15 13:55
 
 
 
+### 表单序列化
+
+```javascript
+export const serialize = data => {
+  let list = []
+  Object.keys(data).forEach(ele => {
+    list.push(`${ele}=${data[ele]}`)
+  })
+  return list.join('&')
+}
+```
+
+### 获取对象的类型
+
+```javascript
+export const getObjType = obj => {
+  var toString = Object.prototype.toString
+  var map = {
+    '[object Boolean]': 'boolean',
+    '[object Number]': 'number',
+    '[object String]': 'string',
+    '[object Function]': 'function',
+    '[object Array]': 'array',
+    '[object Date]': 'date',
+    '[object RegExp]': 'regExp',
+    '[object Undefined]': 'undefined',
+    '[object Null]': 'null',
+    '[object Object]': 'object'
+  }
+  if (obj instanceof Element) {
+    return 'element'
+  }
+  return map[toString.call(obj)]
+}
+```
+
+### 对象深拷贝
+
+```javascript
+export const deepClone = data => {
+  var type = getObjType(data)
+  var obj
+  if (type === 'array') {
+    obj = []
+  } else if (type === 'object') {
+    obj = {}
+  } else {
+    // 不再具有下一层次
+    return data
+  }
+  if (type === 'array') {
+    for (var i = 0, len = data.length; i < len; i++) {
+      obj.push(deepClone(data[i]))
+    }
+  } else if (type === 'object') {
+    for (var key in data) {
+      obj[key] = deepClone(data[key])
+    }
+  }
+  return obj
+}
+```
+
+### 计算时间和当前时间的差值
+
+```javascript
+export const spaceTime = function (atime) {
+  atime = atime.replace(/-/g, '/'); //IE出现兼容问题，带“-”格式的时间无法被new Date()转成时间格式，返回NaN.
+  let byTime = [365 * 24 * 60 * 60 * 1000, 24 * 60 * 60 * 1000, 60 * 60 * 1000, 60 * 1000, 1000];
+  let unit = ["年", "天", "小时", "分钟", "秒钟"];
+  var ct = new Date().getTime() - new Date(atime).getTime();
+  if (ct <= 1000) {
+    // return "时间数据出错!"
+    return "刚刚"
+  }
+  var sb = [];
+  for (var i = 0; i < byTime.length; i++) {
+    if (ct < byTime[i]) {
+      continue;
+    }
+    var temp = Math.floor(ct / byTime[i]);
+    ct = ct % byTime[i];
+    if (temp > 0) {
+      sb.push(temp + unit[i]);
+    }
 
 
+    /*一下控制最多输出几个时间单位：
+     一个时间单位如：N分钟前
+     两个时间单位如：M分钟N秒前
+     三个时间单位如：M年N分钟X秒前
+    以此类推
+    */
+    if (sb.length >= 1) {
+      break;
+    }
+  }
+  return (sb.join("") + "前");
+}
+```
 
+### 获取当年年月日
 
+```javascript
+export const getNowFormatDate = function() {
+  var date = new Date();
+  var seperator1 = "-";
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  var strDate = date.getDate();
+  if (month >= 1 && month <= 9) {
+      month = "0" + month;
+  }
+  if (strDate >= 0 && strDate <= 9) {
+      strDate = "0" + strDate;
+  }
+  var currentdate = year + seperator1 + month;
+  return currentdate;
+}
+```
 
+### 获取距离当前时间多久的时间
 
-
-
-
-
-
+```javascript
+/**
+ * 获取距离当前时间多久的时间
+ * @param type year年/month月/week周/day日 
+ * @param number -为之前/+为之后
+ */
+export const getBeforAfterTime = function(type=null,number=0) {
+  var nowdate = new Date();
+  switch (type) {
+      case "day":   //取number天前、后的时间
+          nowdate.setTime(nowdate.getTime() + (24 * 3600 * 1000) * number);
+          var y = nowdate.getFullYear();
+          var m = nowdate.getMonth() + 1;
+          var d = nowdate.getDate();
+          var retrundate = y + '/' + m + '/' + d;
+          break;
+      case "week":  //取number周前、后的时间
+          nowdate.setTime(nowdate.getTime() + (7 * 24 * 3600 * 1000) * number);
+          var y = nowdate.getFullYear();
+          var m = nowdate.getMonth() + 1;
+          var d = nowdate.getDate();
+          var retrundate = y + '/' + m + '/' + d;
+          break;
+      case "month":  //取number月前、后的时间
+          nowdate.setMonth(nowdate.getMonth() + number);
+          var y = nowdate.getFullYear();
+          var m = nowdate.getMonth() + 1;
+          var d = nowdate.getDate();
+          var retrundate = y + '/' + m + '/' + d;
+          break;
+      case "year":  //取number年前、后的时间
+          nowdate.setFullYear(nowdate.getFullYear() + number);
+          var y = nowdate.getFullYear();
+          var m = nowdate.getMonth() + 1;
+          var d = nowdate.getDate();
+          var retrundate = y + '/' + m + '/' + d;
+          break;
+      default:     //取当前时间
+          var y = nowdate.getFullYear();
+          var m = nowdate.getMonth() + 1;
+          var d = nowdate.getDate();
+          var retrundate = y + '/' + m + '/' + d;
+  }
+  return retrundate;
+}
+```
 
 
 
