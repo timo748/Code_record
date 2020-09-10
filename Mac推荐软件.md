@@ -18,7 +18,7 @@ Markdown：typora
 
 网盘：百度云盘
 
-图形界面数据库：sequel pro
+图形界面数据库： Navicat premium
 
 编辑器：vscode、sublime Text
 
@@ -26,7 +26,7 @@ FTP:filezilla
 
 手机传输文件：handshaker
 
-文件解压：betterzip
+文件解压：The Unarchiver
 
 播放器：IINA
 
