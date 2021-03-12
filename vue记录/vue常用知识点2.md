@@ -461,7 +461,20 @@ this.$router.push({
 
 ### vue离开定时任务页面执行函数
 
+```vue
+mounted(){
+ const timer = setInterval(()=>{
+    console.log(1)
+ },1000)
+ this.$once('hook:beforeDestroy',()=>{
+  clearInterval(timer)
+ })
+}
 ```
+
+清除定时器
+
+```vue
 mounted(){
  const timer = setInterval(()=>{
     console.log(1)
