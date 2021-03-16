@@ -485,3 +485,13 @@ mounted(){
 }
 ```
 
+在main.js文件添加即可清除console.log()
+
+```javascript
+export function rewirteLog() {
+    console.log = (function (log) {
+        return process.env.NODE_ENV == 'development'? log : function() {}
+    }(console.log))
+}
+```
+
