@@ -723,7 +723,29 @@ test();
 
 
 
+弹窗是阻止滚动
 
+```javascript
+// 展示弹窗时，阻止背景滚动
+function stopScroll () {
+    let top = document.body.scrollTop || document.documentElement.scrollTop;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `${-1 * top}px`;
+}
+// 隐藏弹窗时，恢复背景的滚动
+function recoverScroll () {
+    let top = -parseInt(document.body.style.top);
+    document.body.style.position = 'static';
+    document.body.style.top = 0;
+    window.scrollTo(0, top);
+}
+
+// 注意事项
+// 设置fixed后页面元素会发生偏移，通过设置body样式可以解决这个问题
+body {
+    width: 100%;
+}
+```
 
 
 
