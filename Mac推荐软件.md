@@ -34,6 +34,18 @@ FTP:filezilla
 
 垃圾清理：tencent Lemon Lite
 
+分屏：magnet
+
+视频转音频：permute3
+
+壁纸软件：unsplash wallpapers
+
+思维导图：幕布
+
+修改host：ihosts
+
+todolist：滴答清单
+
 
 
 安装mac包损坏方法：
