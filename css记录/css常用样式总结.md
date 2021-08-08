@@ -20,6 +20,48 @@ p {
     -webkit-line-clamp: 3;
     overflow: hidden;
  }
+ 
+ eg:
+ <div class="content">
+ <div class="text">
+   <label class="btn" for="exp">展开</label>
+   <span>
+     但听得蹄声如雷，十余乘马疾风般卷上山来。马上乘客一色都是玄色薄毡大氅，
+     里面玄色布衣，但见人似虎，马如龙，人既矫捷，马亦雄骏，每一匹马都是高头
+     长腿，通体黑毛，奔到近处，群雄眼前一亮，金光闪闪，却见每匹马的蹄铁竟然
+     是黄金打就。来者一共是一十九骑，人数虽不甚多，气势之壮，却似有如千军万
+     马一般，前面一十八骑奔到近处，拉马向两旁一分，最后一骑从中驰出</span>
+ </div>
+</div>
+
+<style>
+ .content {
+   display: flex;
+ }
+ .text::before{
+   content: '';
+   float: right;
+   height: 100%;
+   margin-bottom: -20px;
+ }
+ .btn {
+   float: right;
+   clear: both;
+   margin-right: 8px;
+ }
+</style>
+
+展开收起
+<input type="checkbox" id="exp" />
+
+<style>
+  #exp {
+    visibility: hidden;
+  }
+  #exp:checked+.text{
+    -webkit-line-clamp: 999; /*设置一个足够大的行数就可以了*/
+  }
+</style>
 ```
 
 ### **2、中英文自动换行**
@@ -838,4 +880,35 @@ fill: 默认值。内容拉伸填满整个content box, 不保证保持原有的�
 ```
 
 PS：vertical-align不可继承，必须对子元素单独设置。同时需要注意的是line-height的高度基于font-size（即字体的高度），如果文字要转行会出现异常
+
+
+
+CSS sticky置顶
+
+```html
+<style>
+html,body{
+  scroll-behavior: smooth;
+}
+.back{
+  position: sticky;
+  float: right;
+  top: -110px;
+  margin-top: -50px;
+  border-radius: 50%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'%3E %3Cpath fill='%23ffffff' d='M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z'%3E%3C/path%3E %3C/svg%3E") center no-repeat dodgerblue;
+  background-size: 50%;
+  width: 50px;
+  height: 50px;
+  transform: translateY(calc(100vh + 50px));
+}
+</style>
+
+<body>
+  <a class="back" href="#"></a><!--添加再这里就行了-->
+  <article>
+  ...很多内容
+  </article>
+</body>
+```
 
