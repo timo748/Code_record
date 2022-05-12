@@ -128,7 +128,27 @@ const copyToClipboard = str => {
 copyToClipboard( Lorem ipsum ); //  Lorem ipsum  copied to clipboard.
 ```
 
+### 对象数据过滤
 
+```javascript
+const course = {
+    math: 80,
+    english: 85,
+    chinese: 90
+}
+const res = Object.entries(course).filter(([key, val]) => val > 80)
+console.log(res) // [ [ 'english', 85 ], [ 'chinese', 90 ] ]
+console.log(Object.fromEntries(res)) // { english: 85, chinese: 90 }
+```
 
+### ES6获取地址栏参数
 
+```javascript
+// let url = "https://www.baidu.com?name=jimmy&age=18&height=1.88"
+// queryString 为 window.location.search
+const queryString = "?name=jimmy&age=18&height=1.88";
+const queryParams = new URLSearchParams(queryString);
+const paramObj = Object.fromEntries(queryParams);
+console.log(paramObj); // { name: 'jimmy', age: '18', height: '1.88' }
+```
 
