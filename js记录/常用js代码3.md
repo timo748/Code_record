@@ -747,5 +747,21 @@ body {
 }
 ```
 
+### 检测是否为空对象
 
+```javascript
+function isEmpty(obj){
+    return  Reflect.ownKeys(obj).length === 0 && obj.constructor === Object;
+}
+```
+
+
+
+### 计算两个坐标距离
+
+```javascript
+function distance(p1, p2){
+    return `Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+}
+```
 
